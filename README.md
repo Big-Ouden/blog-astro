@@ -2,7 +2,9 @@
     <img src="assets/banner.png"></img> </br>
     <img alt="GitHub License" src="https://shieldsio.bigouden.org/github/license/Big-Ouden/blog-astro?style=for-the-badge">
     <img alt="GitHub repo size" src="https://shieldsio.bigouden.org/github/repo-size/Big-Ouden/blog-astro?style=for-the-badge"></img>
-    <a href="https://belier.iiens.net"><img alt="Personnal blog link" src="https://shieldsio.bigouden.org/badge/MY-BLOG-yellow?style=for-the-badge"></img></a></br>
+    <a href="https://belier.iiens.net"><img alt="Personnal blog link" src="https://shieldsio.bigouden.org/badge/MY-BLOG-yellow?style=for-the-badge"></img></a>
+    </br>
+    <img alt="GitHub Actions Workflow Status" src="https://shieldsio.bigouden.org/github/actions/workflow/status/Big-Ouden/blog-astro/deploy.yml?branch=main&style=for-the-badge">
     <img alt="GitHub last commit" src="https://shieldsio.bigouden.org/github/last-commit/Big-Ouden/blog-astro?display_timestamp=author&style=for-the-badge">
     <p>
     My personal blog propulsed by <a href="https://astro.build/">Astro</a>
