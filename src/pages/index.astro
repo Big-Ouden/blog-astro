@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { Image } from 'astro:assets';
+import catGif from "../images/cat.gif";
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro';
 
@@ -17,7 +19,7 @@ const pagetitle = "Home"
 	<body>
 		<Header />
 
-		<h1>My Astro Site <img src="../images/cat.gif"> </h1>
+		<h1>My Astro Site <Image src={catGif} alt="Cat gif" loading="eager" /> </h1>
 		<h2>{pagetitle}</h2>
 
 		<Footer />
