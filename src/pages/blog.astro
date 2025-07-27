@@ -1,27 +1,10 @@
 ---
-import '../styles/global.css';
-import { Image } from 'astro:assets';
-import catGif from "../images/cat.gif";
-import Header from '../components/Header.astro'
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-const pagetitle = "Blog";
+const pageTitle = "Blog";
 ---
 
-<html lang="en">
-	<head>
-	  <meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/public/cat.gif" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{pagetitle}</title>
-	</head>
-	<body>
-
-    <Header />
-
-    <h1>My Astro Site <Image src={catGif} alt="Cat gif" loading="eager" /></h1>
-    <h2>{pagetitle}</h2>
+<BaseLayout pageTitle={pageTitle}>
     <p>This is where I will post about my journey learning Astro.</p>
     <ul>
       <li><a href="/posts/post-1/">Post 1</a></li>
@@ -29,14 +12,4 @@ const pagetitle = "Blog";
       <li><a href="/posts/post-3/">Post 3</a></li>
     </ul>
 
-
-    <Footer />
-
-
-	<script>
-		import "../scripts/menu.js";
-	</script>
-
-
-</body>
-</html>
+</BaseLayout>
