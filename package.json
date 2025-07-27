@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.12",
     "astro": "^5.12.3"
   },
   "devDependencies": {
