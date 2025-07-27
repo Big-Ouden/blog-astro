@@ -1,17 +1,47 @@
-name: Deploy Astro Blog to VPS
+name: Test and Deploy Astro Blog
 
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
-  deploy:
-    name: Deploy to VPS
+  test:
+    name: Build & Test Astro
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Optional: Lint code (Astro, JS, CSS, etc.)
+        run: npm run lint
+        continue-on-error: true  # si tu veux que ce soit non-bloquant
+
+      - name: Optional: Check broken links (static site)
+        run: |
+          npm install -g broken-link-checker
+          blc http://localhost:4321 --filter-level 3 --crawler --recursive --get > /dev/null || true
+        continue-on-error: true
+
+  deploy:
+    name: Deploy to VPS
+    needs: test  # ← NE DÉPLOIE QUE SI LES TESTS PASSENT
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Copy files to VPS via SCP
@@ -20,10 +50,10 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "."                 # Tout le dépôt
-          target: "~/blog-astro"     # Dossier sur le VPS
+          source: "."
+          target: "~/blog-astro"
 
-      - name: Deploy via SSH
+      - name: SSH and deploy with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -31,6 +61,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd ~/blog-astro
+            docker rm -f blog-astro || true
             docker compose down
             docker compose pull
             docker compose up -d --build
