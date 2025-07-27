@@ -25,11 +25,11 @@ jobs:
       - name: Build Astro site
         run: npm run build
 
-      - name: Optional: Lint code (Astro, JS, CSS, etc.)
+      - name: Lint code (Astro, JS, CSS, etc.)
         run: npm run lint
         continue-on-error: true  # si tu veux que ce soit non-bloquant
 
-      - name: Optional: Check broken links (static site)
+      - name: Check broken links (static site)
         run: |
           npm install -g broken-link-checker
           blc http://localhost:4321 --filter-level 3 --crawler --recursive --get > /dev/null || true
