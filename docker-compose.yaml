@@ -1,0 +1,15 @@
+services:
+  astro-blog:
+    build: .
+    container_name: astro-blog
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.astro.rule=Host(`bigouden.org`)"
+      - "traefik.http.routers.astro.entrypoints=https"
+      - "traefik.http.routers.astro.tls=true"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
