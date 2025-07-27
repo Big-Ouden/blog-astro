@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           source: "."                 # Tout le dépôt
-          target: "~/astro-blog"     # Dossier sur le VPS
+          target: "~/blog-astro"     # Dossier sur le VPS
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd ~/astro-blog
+            cd ~/blog-astro
             docker compose down
             docker compose pull
             docker compose up -d --build
