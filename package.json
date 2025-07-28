@@ -10,8 +10,10 @@
     "lint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
+    "@astrojs/preact": "^4.1.0",
     "@astrojs/rss": "^4.0.12",
-    "astro": "^5.12.3"
+    "astro": "^5.12.3",
+    "preact": "^10.26.9"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.38.0",
