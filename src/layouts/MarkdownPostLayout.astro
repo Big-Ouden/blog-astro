@@ -17,7 +17,7 @@ const { frontmatter } = Astro.props;
     .tag {
       margin: 0.25em;
       /* border-radius: .5em; */
-      padding: .5em 1em;
+      padding: .25em 0.5em;
       font-size: 1.15em;
       background-color: #d79921;
     }
@@ -29,7 +29,7 @@ const { frontmatter } = Astro.props;
             <a href={`/tags/${tag}`}><p class="tag">{tag}</p></a>
         )}
     </div>
-    <p>Published on: {frontmatter.pubDate}</p>
+    <p>Published on: {frontmatter.pubDate.toLocaleDateString()}</p>
     <p>Written by {frontmatter.author}</p>
     <p><em>{frontmatter.description}</em></p>
     <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
