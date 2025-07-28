@@ -1,9 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Greeting  from '../components/Greetings';
+
 const pageTitle = "Home Page"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+    <h2>My awesome blog subtitle</h2>
 
+    <Greeting client:load messages = {["Hello","Hi", "Howdy", "Hey there"]} />
+
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere ad soluta officiis dolores, dicta natus, nesciunt molestias animi excepturi suscipit, vero beatae dolorum autem voluptatibus aliquam illum aliquid repudiandae labore!
+    </p>
 
 </BaseLayout>
