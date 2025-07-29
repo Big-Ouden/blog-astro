@@ -1,0 +1,94 @@
+---
+
+interface Card {
+    cardTitle : String,
+    location: String,
+    company?: String,
+    date: String,
+    tags: String[],
+    content?: String[]
+}
+
+interface Props {
+    sectiontitle: String;
+    cardList: Card[],
+
+}
+
+const {
+    sectiontitle,cardList
+} = Astro.props;
+
+
+
+
+---
+
+
+<div class="collapse collapse-arrow  my-1 ">
+    <input type="checkbox" name="accordion-1" />
+    <div class="collapse-title  underline underline-offset-4 self-left mb-2 text-xl md:text-2xl pb-0">{sectiontitle}</div>
+    <div class="collapse-content text-sm ">
+        <div class="w-full  flex flex-col ">
+            <!-- <h1 class="underline underline-offset-4 self-left mb-2 text-xl md:text-3xl">{sectiontitle}</h1> -->
+            
+            {cardList && cardList.length > 0 ? (
+                cardList.map((card, index) => (
+                    <div class="card w-6/6 bg-base-200 card-md shadow-sm self-center my-4">
+                
+                        <div class="card-body">
+                            <h2 id="cardTitle" class="card-title text-accent">{card.cardTitle}</h2>
+                            {card.company && ( 
+                                <h2 id="company" class="text-sm">{card.company}</h2>
+                            )}
+                            <div id="subTitle" class="inline-flex justify-between items-center mb-2">
+                                    <h3 id="location" class="inline-flex items-baseline">
+                                    <div id="map-icon" class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <title>Location logo</title>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                        </svg>
+                                    </div>
+                                    <div  class="self-center">
+                                        {card.location}
+                                    </div>
+                                </h3>
+                                <h3 id="cardData" class=" p-1 border inline-block align-top">{card.date}</h3>
+                            </div>
+                            {card.content && card.content.length > 0 && (
+                                <p>
+                                    <ul class="list-disc list-inside">
+                                        {card.content.map((sentence)=> 
+                                            <li class="mb-4">
+                                                {sentence}
+                                            </li>
+                                        )}
+                                    </ul>
+        
+                                    
+                                </p>
+                            )}
+        
+                            <div class="card-actions justify-end">
+                                {card.tags.map((tag)=> 
+                
+                                    <div class="badge badge-outline border border-secondary text-xs md:text-sm ">{tag}</div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ))
+            ):(
+                <div class="text-center p-8 text-gray-500">
+                    <p>No items to display</p>
+                </div>
+            )}
+        
+        
+            
+        </div>
+    </div>
+
+
+</div>

@@ -1,4 +1,6 @@
 ---
+import {Image} from "astro:assets";
+import CatGif from "@images/cat_2.gif";
 ---
 <!-- <div class="nav-links">
     <a href="/">Home</a>
@@ -10,7 +12,10 @@
 
 <div class="navbar bg-base-100 hidden md:flex">
     <div class="flex-1">
-      <a class="text-4xl" href="/">BigOuden</a>
+        <div class="inline-flex items-center">
+            <Image src={CatGif} alt="cat gif" height="50" loading={"eager"}/>
+            <a class="text-3xl" href="/">BigOuden</a>
+        </div>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
