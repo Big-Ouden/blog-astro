@@ -1,4 +1,7 @@
 ---
+import {Image} from "astro:assets";
+import CatGif from "@images/cat_2.gif"
+
 interface Props {
   name: string;
   surname: string;
@@ -20,12 +23,15 @@ const {surname = "Simon",
 
 <div class="flex justify-between mt-5">
     <div id="presentation-text" class="flex flex-col  text-center w-full ">
-        <h1 class="text-4xl my-2 ">{surname}<br/>{name}</h1>
+        <h1 class="text-4xl my-2 text-warning">{surname}<br/>{name}</h1>
+        <!-- <div class="md:hidden self-center w-10">
+            <Image src={CatGif} alt="cat GIF" loading={"eager"}/>
+        </div> -->
         <h2 class="text-xl">
             <slot name="status"></slot>
         </h2>
         <div id="social" class="flex justify-center ">
-            <a id="github" href={githubUrl} target="_blank" class=" my-2 mx-5 hover:text-accent transition duration-200 ease-in-out" >
+            <a id="github" href={githubUrl} target="_blank" class=" my-2 mx-5 text-info transition duration-200 ease-in-out" >
                 <span class="[&>svg]:h-7 [&>svg]:w-7">
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +44,8 @@ const {surname = "Simon",
                     </svg>
                 </span>
             </a>
-            <a id="linkedin" href={linkedinUrl} target="_blank" class=" my-2 mx-5 hover:text-accent transition duration-200 ease-in-out">
+            <Image src={CatGif} alt="cat GIF" loading={"eager"} class="md:hidden self-center w-10"/>
+            <a id="linkedin" href={linkedinUrl} target="_blank" class=" my-2 mx-5 text-info transition duration-200 ease-in-out">
                 <!-- Linkedin -->
                 <span class="[&>svg]:h-7 [&>svg]:w-7">
                 <svg
@@ -53,10 +60,13 @@ const {surname = "Simon",
                 </span>
             </a>
         </div>
-        <p class="m-5 text-xs md:text-sm">
+
+        
+
+        <p class="m-5 mt-0 text-xs md:text-sm">
             <slot name="introduction" ></slot>
         </p>
-        <div class="text-center m-5">
+        <div class="text-center m-5 mb-0">
             <a id="resume" href={resumeUrl} target="_blank">
                 <button class="btn btn-active btn-secondary ">Resume</button>
             </a>

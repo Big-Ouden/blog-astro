@@ -25,24 +25,24 @@ const {
 ---
 
 
-<div class="collapse collapse-arrow  my-1 ">
-    <input type="checkbox" name="accordion-1" />
-    <div class="collapse-title  underline underline-offset-4 self-left mb-2 text-xl md:text-2xl pb-0">{sectiontitle}</div>
+<div class="collapse md:collapse-arrow  my-1 bg-base-200">
+    <div class="collapse-title  underline underline-offset-4 self-left mb-2 text-xl md:text-2xl pb-0 ">{sectiontitle}</div>
+    <input type="checkbox" name="accordion-1"/>
     <div class="collapse-content text-sm ">
         <div class="w-full  flex flex-col ">
             <!-- <h1 class="underline underline-offset-4 self-left mb-2 text-xl md:text-3xl">{sectiontitle}</h1> -->
             
             {cardList && cardList.length > 0 ? (
                 cardList.map((card, index) => (
-                    <div class="card w-6/6 bg-base-200 card-md shadow-sm self-center my-4">
+                    <div class="card w-6/6 bg-base-300 card-md shadow-sm self-center my-4">
                 
                         <div class="card-body">
                             <h2 id="cardTitle" class="card-title text-accent">{card.cardTitle}</h2>
                             {card.company && ( 
-                                <h2 id="company" class="text-sm">{card.company}</h2>
+                                <h2 id="company" class="text-sm text-warning">{card.company}</h2>
                             )}
-                            <div id="subTitle" class="inline-flex justify-between items-center mb-2">
-                                    <h3 id="location" class="inline-flex items-baseline">
+                            <div id="subTitle" class="flex flex-col fle md:inline-flex md:flex-row justify-between md:items-center mb-2 ">
+                                <h3 id="location" class="inline-flex items-baseline text-info">
                                     <div id="map-icon" class="">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <title>Location logo</title>
@@ -54,7 +54,7 @@ const {
                                         {card.location}
                                     </div>
                                 </h3>
-                                <h3 id="cardData" class=" p-1 border inline-block align-top">{card.date}</h3>
+                                <h3 id="cardData" class="mt-1 md:mt-0 p-1 border block w-fit md:w-auto md:inline-block align-top border-info">{card.date}</h3>
                             </div>
                             {card.content && card.content.length > 0 && (
                                 <p>
