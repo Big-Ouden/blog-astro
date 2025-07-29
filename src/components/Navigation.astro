@@ -10,18 +10,80 @@ import CatGif from "@images/cat_2.gif";
 </div> -->
 
 
-<div class="navbar bg-base-100 hidden md:flex">
+<div class="navbar bg-base-100  md:flex">
+    <div class="flex-none md:hidden">
+        <button class="btn btn-circle btn-ghost" popovertarget="popover-1" style="anchor-name:--anchor-1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg>
+        </button>
+    </div>
     <div class="flex-1">
         <div class="inline-flex items-center">
             <Image src={CatGif} alt="cat gif" height="50" loading={"eager"}/>
             <a class="text-3xl" href="/">BigOuden</a>
         </div>
     </div>
-    <div class="flex-none">
+
+    <div class="md:flex-none hidden md:flex">
       <ul class="menu menu-horizontal px-1">
-        <li class="text-accent"><a href="/blog/">Blog</a></li>
-        <li class="text-accent"><a href="/about/">Projetcs</a></li>
-        <li class="text-accent"><a href="/tags/">Tags</a></li>
+        <li class="text-xl underline underline-offset-6"><a href="/blog/">/Blog</a></li>
+        <li class="text-xl underline underline-offset-6"><a href="/about/">/Projetcs</a></li>
+        <li class="text-xl underline underline-offset-6"><a href="/tags/">/Tags</a></li>
       </ul>
     </div>
-  </div>
+
+    <div class="dropdown menu w-52 rounded-box bg-base-100  shadow-sm md:hidden" popover id="popover-1" style="position-anchor:--anchor-1">
+        <ul class=" px-1">
+            <li class="text-xl ">
+                <a href="/">
+                    <div id="logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                        </svg>
+                    </div>
+                    <div id="title">
+                        /Home
+                    </div>
+                </a>
+            </li>
+            <div class="divider my-0 self-center"></div>
+
+            <li class="text-xl ">
+                <a href="/blog/">
+                    <div id="logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>              
+                    </div>
+                    <div id="title">
+                        /Blog
+                    </div>
+                </a>
+            </li>
+            <li class="text-xl ">
+                <a href="/projetcs/">
+                    <div id="logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                        </svg>                                                                
+                    </div>
+                    <div id="title">
+                        /Projects
+                    </div>
+                </a>
+            </li>
+            <li class="text-xl ">
+                <a href="/tags/">
+                    <div id="logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                        </svg>               
+                    </div>
+                    <div id="title">
+                        /Tags
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>    
+</div>
