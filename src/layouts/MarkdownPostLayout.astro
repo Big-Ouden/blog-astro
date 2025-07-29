@@ -1,11 +1,14 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Prose from '../components/Prose.astro';
+import { Image } from 'astro:assets';
+
 
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate); // convert manually
 ---
 
-<style>
+<!-- <style>
     a {
       color: #282828;
     }
@@ -22,17 +25,20 @@ const pubDate = new Date(frontmatter.pubDate); // convert manually
       font-size: 1.15em;
       background-color: #d79921;
     }
-</style>
+</style> -->
 
 <BaseLayout pageTitle={frontmatter.title}>
-    <div class="tags">
+  <Prose>
+    <div class="tags flex flex-wrap">
         {frontmatter.tags.map((tag: String) => 
-            <a href={`/tags/${tag}`}><p class="tag">{tag}</p></a>
+            <a href={`/tags/${tag}`}><p class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
         )}
     </div>
     <p>Published on: {pubDate.toLocaleDateString()}</p>
     <p>Written by {frontmatter.author}</p>
     <p><em>{frontmatter.description}</em></p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+    <Image src={frontmatter.image.url} width="300" height="200" alt={frontmatter.image.alt} loading={"eager"} />
+    
     <slot />
+  </Prose>
 </BaseLayout>
