@@ -3,17 +3,35 @@ import "@styles/global.css";
 import Header from "@components/Header.astro";
 import BackToTop from "@components/BackToTop.astro";
 import Head from "@components/Head.astro";
+import Footer from "@components/Footer.astro";
 const {pageTitle} = Astro.props;
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const githubUrl="https://link.bigouden.org/going/1?https://github.com/Big-Ouden";
+const linkedinUrl="https://link.bigouden.org/going/4?https://www.linkedin.com/in/simon-b%C3%A9lier-1a2535295/"; 
+const linktreeUrl="https://link.bigouden.org" ;
+
 ---
 
-<html class="text-s md:text-xl">
+<html class="text-s md:text-xl" lang={lang}>
     
     <Head pageTitle={pageTitle} />
 
     <body>
-        <Header/>
-        <slot/>
-         <BackToTop/>
+        <div class="flex flex-col h-[95vh] justify-between">
+            <header class="">
+                <Header/>
+            </header>
+            <main class="mb-auto">
+                <slot/>
+            </main>
+            <footer class="my-10">
+                <Footer githubUrl={githubUrl} linkedinUrl={linkedinUrl} linktreeUrl={linktreeUrl} />
+            </footer>
+          </div>
+        <BackToTop/>
     </body>
 </html>
 

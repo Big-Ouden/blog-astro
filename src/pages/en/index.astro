@@ -1,16 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
-
 
 import IndexLayout from '@layouts/IndexLayout.astro';
 import Presentation from "@components/Presentation.astro";
-import PresentationSection from '@components/PresentationSection.astro';
 import ProfilePicture from "@images/bigouden_aperopark_square.jpg";
+import PresentationSection from '@components/PresentationSection.astro';
 
 
 const surname = "Simon";
@@ -22,9 +16,9 @@ const resumeUrl="https://link.bigouden.org/going/6?https://rxresu.me/simon.belie
 
 const educationCards = [
     {
-        cardTitle: "Baccalauréat option : Maths, Physique, NSI",
-        location: "Brest, France",
-        company: "Lycée Amiral Ronarc'h",
+        cardTitle: "Baccalauréat",
+        location: "France",
+        company: "ENSIIE (École Nationale Supérieure d'Informatique pour l'Industrie et l'Entreprise)",
         date: "2021-2025",
         tags: ["Software Architecture", "Systems", "Engineering"],
     },
@@ -136,24 +130,75 @@ const certificationsCards = [
     <Presentation name={name} surname={surname} githubUrl={githubUrl} linkedinUrl={linkedinUrl} resumeUrl={resumeUrl} >
 
     <div slot="status">
-        Étudiant ingénieur en HPC
+        HPC aspiring Engineer EN
     </div>
     <div slot="introduction" >
-        Je m'appelle Simon "BigOuden" BÉLIER, étudiant à l'<a href="https://ensiie.fr" class="text-base font-black">ENSIIE</a> dans le parcours CIDM (Calculs Intensifs et Données Massives) ou <span class="text-base font-black">HPC</span>.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit, accusantium! Molestiae m
     </div>
     <div slot="general-presentation">
-        Ce site fait office à la fois de blog personnel et de portfolio professionnel. J’y partagerai mes réflexions techniques, projets, et découvertes autour du monde de l'informatique et de l'open source en général. N'hésitez pas à checker mes <a class="text-base text-info font-black underline underline-offset-2 hover:text-primary focus:text-primary transition duration-100 ease-in-out" href={translatePath("/blog")}>posts</a> et mes <a href={translatePath("/projects")} class="text-base text-info font-black underline underline-offset-2 hover:text-primary focus:text-primary transition duration-100 ease-in-out" >projets</a>.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, quasi nam officia cum, quisquam at reprehenderit fuga exercitationem in deserunt quaerat quos eveniet autem aperiam numquam! Inventore eius nihil eos?
     </div>
-    <Image slot="profilePicture" src={ProfilePicture} alt="Profile" class="rounded-full" loading="eager"/>
+    <div class="rounded-full  overflow-hidden" slot="profilePicture">
+        <Image src={ProfilePicture} alt="Profile" class="hover:scale-105 transition duration-300" loading="eager"/>
+    </div>
+    <!-- <Image slot="profilePicture" src={ProfilePicture} alt="Profile" class="rounded-full hover:scale-110 overflow-hidden" loading="eager"/> -->
 
     </Presentation>
 
 
     <div class="flex flex-col   mx-0 mt-2">
         
-        <PresentationSection sectiontitle="Expériences professionnelles" cardList={experienceCards} />
-        <PresentationSection sectiontitle="Formations" cardList={educationCards} />
+        <PresentationSection sectiontitle="Work experience" cardList={experienceCards} />
+        <PresentationSection sectiontitle="Diplômes" cardList={educationCards} />
         <PresentationSection sectiontitle="Certifications" cardList={certificationsCards} />
+
+
+        <!-- <div class="w-full  flex flex-col my-5 ">
+            <h1 class="underline underline-offset-4 self-left mb-2 text-xl md:text-2xl">Files</h1>
+            <div id="files" class="flex flex-wrap justify-center">
+                <div class="card bg-base-200 w-1/4 shadow-sm m-2">
+                    <figure>
+                      <img
+                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                        alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                      <h2 class="card-title">Card Title</h2>
+                      <div class="card-actions justify-center">
+                        <button class="btn btn-primary">Buy Now</button>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="card bg-base-200 w-1/4 shadow-sm m-2">
+                    <figure>
+                      <img
+                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                        alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                      <h2 class="card-title">Card Title</h2>
+                      <div class="card-actions justify-center">
+                        <button class="btn btn-primary">Buy Now</button>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="card bg-base-200 w-1/4 shadow-sm m-2">
+                    <figure>
+                      <img
+                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                        alt="Shoes" />
+                    </figure>
+                    <div class="card-body">
+                      <h2 class="card-title">Card Title</h2>
+                      <div class="card-actions justify-center">
+                        <button class="btn btn-primary">Buy Now</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
 
 
     </div>

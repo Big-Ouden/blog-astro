@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+
 const {pageTitle} = Astro.props;
 
 ---
@@ -8,6 +9,7 @@ const {pageTitle} = Astro.props;
     <link rel="icon" type="image/svg+xml+gif" href="/cat.gif" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta content="0;url=/fr/"  />
     <title>{pageTitle}</title>
     <ClientRouter />
 </head>

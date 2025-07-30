@@ -1,7 +1,11 @@
 ---
 import {Image} from "astro:assets";
 import CatGif from "@images/cat_2.gif";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const currentPath = Astro.url.pathname;
 function isActive(path: string): boolean {
@@ -11,10 +15,11 @@ function isActive(path: string): boolean {
     return currentPath.startsWith(path);
 }
 const navItems = [
-    { href: '/', label: '/Home', icon: 'home' },
-    { href: '/blog/', label: '/Blog', icon: 'blog' },
-    { href: '/projects/', label: '/Projects', icon: 'projects' },
-    { href: '/tags/', label: '/Tags', icon: 'tags' }
+    { href: translatePath('/'), label: `/${t('nav.home')}`, icon: 'home' },
+    { href: translatePath(`/blog/`), label: `/${t('nav.blog')}`, icon: 'blog' },
+    { href: translatePath('/projects/'), label: `/${t('nav.projects')}`, icon: 'projects' },
+    // { href: translatePath('/about/'), label: `/${t('nav.about')}`, icon: 'about' },
+    { href: translatePath('/tags/'), label: `/${t('nav.tags')}`, icon: 'tags' }
 ];
 
 
@@ -47,9 +52,10 @@ const navItems = [
     <!-- Theme toggle button  -->
     <div class="md:flex-none hidden md:flex">
         <ul class="menu menu-horizontal px-1">
-            <li class="text-xl underline underline-offset-6"><a href="/blog/">/Blog</a></li>
-            <li class="text-xl underline underline-offset-6"><a href="/about/">/Projetcs</a></li>
-            <li class="text-xl underline underline-offset-6"><a href="/tags/">/Tags</a></li>
+            <li class="text-xl underline underline-offset-6"><a href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
+            <li class="text-xl underline underline-offset-6"><a href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
+            <!-- <li class="text-xl underline underline-offset-6"><a href={translatePath('/about/')}>/{t('nav.about')}</a></li> -->
+            <li class="text-xl underline underline-offset-6"><a href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
         </ul>
         
         

@@ -3,25 +3,29 @@ import { getCollection } from "astro:content";
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BlogPost from '@components/BlogPost.astro'
 
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+
+// const allPosts = await getCollection("blog");
+
 // Filter posts by language
 const allPosts = await getCollection("blog", ({ id }) => {
     return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
 });
-
 const pageTitle = "Blog";
 ---
 <BaseLayout>
-    <h1>{pageTitle}FR</h1>
+    <h1>{pageTitle}</h1>
 
-    <p>This is where I will post about my journey learning Astro.</p>
+    <p>This is where I will post about my journey learning Astro.EN</p>
     <ul>
+      <!-- {allPosts.map((post: any) => <BlogPost url={`/posts/${post.id}`} title={post.data.title} />)} -->
       {allPosts.map((post: any) =><h1>post.id: {post.id}</h1> <BlogPost url={`/posts/${post.id}`} title={post.data.title} />)}
+      
     </ul>
 
 
