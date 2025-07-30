@@ -1,9 +1,10 @@
 ---
 import "../styles/global.css";
-import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "@components/BackToTop.astro";
+import Head from "@components/Head.astro";
+
 
 const {pageTitle} = Astro.props;
 
@@ -14,25 +15,20 @@ const linktreeUrl="https://link.bigouden.org" ;
 ---
 
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <link rel="icon" type="image/svg+xml+gif" href="/cat.gif" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{pageTitle}</title>
-        <ClientRouter />
-    </head>
+    <Head pageTitle={pageTitle}/>
 
     <body>
         <div class="flex flex-col h-[95vh] justify-between">
-            <header class=""><Header/></header>
-            <main class="mb-auto"><slot/></main>
-            <footer class="m-0"><Footer githubUrl={githubUrl} linkedinUrl={linkedinUrl} linktreeUrl={linktreeUrl} /></footer>
+            <header class="">
+                <Header/>
+            </header>
+            <main class="mb-auto">
+                <slot/>
+            </main>
+            <footer class="m-0">
+                <Footer githubUrl={githubUrl} linkedinUrl={linkedinUrl} linktreeUrl={linktreeUrl} />
+            </footer>
           </div>
-          
-        
-        
-        
         <BackToTop/>
 
     </body>
