@@ -1,0 +1,57 @@
+---
+---
+
+<button
+  type="button"
+  data-twe-ripple-init
+  data-twe-ripple-color="light"
+  class="!fixed bottom-5 end-5 rounded-full bg-base-200 text-base-content p-3 text-xs font-medium uppercase leading-tight shadow-md transition-all duration-300 ease-in-out hover:bg-base-content hover:text-base-100 hover:shadow-lg focus:bg-base-content focus:text-base-100 focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg opacity-0 translate-y-4 pointer-events-none"
+  id="btn-back-to-top">
+  <span class="[&>svg]:w-4">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="3"
+      stroke="currentColor">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+    </svg>
+  </span>
+</button>
+
+<script is:inline>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the button
+    const mybutton = document.getElementById("btn-back-to-top");
+    
+    if (!mybutton) return; // Safety check
+    
+    // When the user scrolls down 20px from the top of the document, show the button
+    const scrollFunction = () => {
+        if (
+            document.body.scrollTop > 20 ||
+            document.documentElement.scrollTop > 20
+        ) {
+            // Show button with smooth transition
+            mybutton.classList.remove("opacity-0", "translate-y-4", "pointer-events-none");
+            mybutton.classList.add("opacity-100", "translate-y-0", "pointer-events-auto");
+        } else {
+            // Hide button with smooth transition
+            mybutton.classList.remove("opacity-100", "translate-y-0", "pointer-events-auto");
+            mybutton.classList.add("opacity-0", "translate-y-4", "pointer-events-none");
+        }
+    };
+    
+    const backToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    
+    // When the user clicks on the button, scroll to the top of the document
+    mybutton.addEventListener("click", backToTop);
+    
+    window.addEventListener("scroll", scrollFunction);
+});
+</script>

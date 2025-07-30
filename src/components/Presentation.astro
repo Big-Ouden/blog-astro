@@ -1,7 +1,4 @@
 ---
-import {Image} from "astro:assets";
-import CatGif from "@images/cat_2.gif"
-
 interface Props {
   name: string;
   surname: string;
@@ -10,7 +7,8 @@ interface Props {
   resumeUrl: string;
 }
 
-const {surname = "Simon",
+const {
+    surname = "Simon",
     name = "BÉLIER",
     githubUrl="", 
     linkedinUrl="", 
@@ -20,6 +18,8 @@ const {surname = "Simon",
 
 
 ---
+
+
 
 <div class="flex justify-between mt-5  md:h-auto">
     <div id="presentation-text" class="flex flex-col  text-center w-full ">
