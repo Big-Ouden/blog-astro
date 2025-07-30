@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -154,14 +154,14 @@ const certificationsCards = [
 
     <Presentation name={name} surname={surname} githubUrl={githubUrl} linkedinUrl={linkedinUrl} resumeUrl={resumeUrl} >
 
-    <div slot="status">
+    <div slot="status" class="">
         Étudiant ingénieur en HPC
     </div>
     <div slot="introduction" >
         Je m'appelle Simon "BigOuden" BÉLIER, étudiant à l'<a href="https://ensiie.fr" class="text-base font-black">ENSIIE</a> dans le parcours CIDM (Calculs Intensifs et Données Massives) ou <span class="text-base font-black">HPC</span>.
     </div>
     <div slot="general-presentation">
-        Ce site fait office à la fois de blog personnel et de portfolio professionnel. J’y partagerai mes réflexions techniques, projets, et découvertes autour du monde de l'informatique et de l'open source en général. N'hésitez pas à checker mes <a class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition duration-100 ease-in-out" href={translatePath("/blog")}>posts</a> et mes <a href={translatePath("/projects")} class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition duration-100 ease-in-out" >projets</a>.
+        Ce site fait office à la fois de blog personnel et de portfolio professionnel. J’y partagerai mes réflexions techniques, projets, et découvertes autour du monde de l'informatique et de l'open source en général. N'hésitez pas à checker mes <a class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors" href={translatePath("/blog")}>posts</a> et mes <a href={translatePath("/projects")} class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors" >projets</a>.
     </div>
     <div class="rounded-full  overflow-hidden" slot="profilePicture">
         <Image src={ProfilePicture} alt="Profile" class="hover:scale-105 transition duration-300" loading="eager"/>

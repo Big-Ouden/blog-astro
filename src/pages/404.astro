@@ -2,7 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 
 const pageTitle = "404: Not found";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

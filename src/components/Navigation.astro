@@ -1,7 +1,7 @@
 ---
 import {Image} from "astro:assets";
 import CatGif from "@images/cat_2.gif";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

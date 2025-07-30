@@ -8,7 +8,9 @@
   prefix: ;
   logs: true;
 }
-
+@theme {
+  --color-fg-100:#D5C4A1;
+}
 
 @plugin "daisyui/theme" {
   name: "gruvbox";
