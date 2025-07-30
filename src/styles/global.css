@@ -46,6 +46,47 @@
   --text-base: 1rem;
 }
 
+
+@plugin "daisyui/theme" {
+  name: "gruvbox-light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: #FBF1C7;
+  --color-base-200: #D5C4A1;
+  --color-base-300: #BDAE93;
+  --color-base-content: #3C3836;
+  --color-primary: #076678;
+  --color-primary-content: #FBF1C7;
+  --color-secondary: #B16286;
+  --color-secondary-content: #FBF1C7;
+  --color-accent: #689D6A ;
+
+  --color-accent-content: #FBF1C7;
+  --color-neutral: #282828;
+  --color-neutral-content: #FBF1C7;
+  --color-info: #458588;
+  
+  --color-info-content: #3C3836;
+  --color-success: #98971A;
+  --color-success-content: #FBF1C7;
+  --color-warning: #D65D0E;
+  --color-warning-content: #FBF1C7;
+  --color-error: #CC241D;
+  --color-error-content: #FBF1C7;
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 0px;
+  --depth: 0;
+  --noise: 0;
+  --text-base: 1rem;
+}
+
+
+
 html {
   font-size: var(--text-xl);
   font-family: JetBrains Mono, monospace;

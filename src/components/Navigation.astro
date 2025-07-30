@@ -2,6 +2,7 @@
 import {Image} from "astro:assets";
 import CatGif from "@images/cat_2.gif";
 
+
 const currentPath = Astro.url.pathname;
 function isActive(path: string): boolean {
     if (path === '/') {
@@ -15,6 +16,8 @@ const navItems = [
     { href: '/projects/', label: '/Projects', icon: 'projects' },
     { href: '/tags/', label: '/Tags', icon: 'tags' }
 ];
+
+
 
 ---
 <!-- <div class="nav-links">
@@ -34,19 +37,22 @@ const navItems = [
         <div class="inline-flex items-center    ">
             <a class="text-xl md:text-3xl center inline-flex items-center  justify-between" href="/">
                 <Image src={CatGif} alt="cat gif" height="50" loading={"eager"}/>
-                <div class="hidden sm:block">
+                <div>
                     BigOuden
                 </div>
             </a>
         </div>
     </div>
 
+    <!-- Theme toggle button  -->
     <div class="md:flex-none hidden md:flex">
-      <ul class="menu menu-horizontal px-1">
-        <li class="text-xl underline underline-offset-6"><a href="/blog/">/Blog</a></li>
-        <li class="text-xl underline underline-offset-6"><a href="/about/">/Projetcs</a></li>
-        <li class="text-xl underline underline-offset-6"><a href="/tags/">/Tags</a></li>
-      </ul>
+        <ul class="menu menu-horizontal px-1">
+            <li class="text-xl underline underline-offset-6"><a href="/blog/">/Blog</a></li>
+            <li class="text-xl underline underline-offset-6"><a href="/about/">/Projetcs</a></li>
+            <li class="text-xl underline underline-offset-6"><a href="/tags/">/Tags</a></li>
+        </ul>
+        
+        
     </div>
 
     <div class="dropdown menu w-52 rounded-box bg-base-100  shadow-sm md:hidden" popover id="popover-1" style="position-anchor:--anchor-1">
