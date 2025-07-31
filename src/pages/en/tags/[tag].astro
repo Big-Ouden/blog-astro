@@ -1,6 +1,8 @@
 ---
 import BlogPost from '@components/BlogPost.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogIndexLayout from '@layouts/BlogIndexLayout.astro';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import { getCollection } from "astro:content";
 
 
@@ -18,10 +20,32 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const {posts} = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+// Filtrer les posts par langue
+const currentLangPosts = posts.filter((post: any) => {
+    return post.id.startsWith(`${lang}/`) || 
+           post.id.includes(`-${lang}.md`) || 
+           post.id.includes(`-${lang}/`);
+});
 ---
-<BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
-  <ul>
-    {posts.map((posts:any) => <BlogPost url={`/posts/${posts.id}`} title={posts.data.title}/>)}
-  </ul>
-</BaseLayout>
+
+<!-- <BaseLayout pageTitle={tag}> -->
+<!---->
+<!---->
+<!---->
+<!--     <p class="md:text-3xl">Posts en lien avec <span>{tag}</span></p> -->
+<!--   <ul> -->
+<!--     {currentLangPosts.map((posts:any) => <BlogPost url={`/posts/${posts.id}`} title={posts.data.title}/>)} -->
+<!--   </ul> -->
+<!-- </BaseLayout> -->
+
+<BlogIndexLayout pageTitle="" allPosts={currentLangPosts}>
+    <div slot="introduction" class="">
+        <h1  class="text-3xl">Posts en lien avec <span class="text-info" >{tag}</span><span class="text-info">.</span></h1>
+    </div>
+
+    <div slot="content">
+    </div>
+</BlogIndexLayout>

@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from '@components/Prose.astro';
 import { Image } from 'astro:assets';
-import { getLangFromUrl, getLanguageLabel, useTranslations } from '@i18n/utils';
+import { getLangFromUrl, getLanguageLabel, useTranslations, useTranslatedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate); // convert manually
@@ -17,7 +18,7 @@ const pubDate = new Date(frontmatter.pubDate); // convert manually
     <div class="bg-info text-info-content px-2 w-fit cursor-pointer" onclick="window.history.back();">Retour</div>
     <div class="tags flex flex-wrap">
         {frontmatter.tags.map((tag: String) => 
-            <a href={`/tags/${tag}`}><p class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
+            <a href={translatePath(`/tags/${tag}`)}><p class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
         )}
     </div>
     <p>Published on: {pubDate.toLocaleDateString(`${lang}`)}</p>
