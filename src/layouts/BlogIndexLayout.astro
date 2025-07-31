@@ -31,39 +31,43 @@ const {
 <BaseLayout>
     <div class="flex flex-col justify-between space-y-10  mb-5">
 
-        <h1 class="text-3xl">{pageTitle}</h1>
-    
-        
+        <h1 class="text-3xl">{pageTitle}<span>.</span></h1>
+
+
         <slot name="introduction" class=""/>
     </div>
 
     <div id="posts-list" class="flex flex-col w-full space-y-5 mb-5 ">
     {allPosts.map((post: any) =>
 
-        <div id="post" class="flex flex-col md:flex-row w-auto  bg-base-200">
+        <div id="post" class="flex flex-col md:flex-row w-auto p-2  ">
             <div id="post-date" class="h-auto w-2/6">
-                <h2>{post.data.pubDate.toLocaleDateString()}</h2>
+                <h2 class="text-fg-200" >{post.data.pubDate.toLocaleDateString()}</h2>
+
+
             </div>
             <div id="post-infos" class="flex flex-col h-auto w-full">
-                <div id="post-title" class=" w-auto h-auto">
-                    <h1>{post.data.title}</h1>
+                <div id="post-title" class=" w-auto h-auto text-xl ">
+                    <h1> <span class="text-info" >#</span> <span class="underline underline-offset-5 decoration-info decoration-2 "> {post.data.title} </span> </h1>
+
+
                 </div>
-                <div id="post-description" class=" w-auto h-full">
+                <div id="post-description" class="text-fg-200 w-auto h-full">
                     <p>
                         {post.data.description}
                     </p>
                 </div>
 
             </div>
-            
+
         </div>
     )}
     </div>
-    
+
 
     <!-- <ul>
         {allPosts.map((post: any) =><BlogPost url={`/posts/${post.id}`} title={post.data.title} />)}
-        
+
     </ul> -->
     <slot name="content" />
 
