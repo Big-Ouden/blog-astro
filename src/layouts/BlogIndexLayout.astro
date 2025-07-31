@@ -44,7 +44,7 @@ const {
     <a href={`/posts/${post.id}`} class="hover:bg-base-200 transition-colors ">
             <div id="post" class="flex flex-col md:flex-row w-auto p-2  ">
                 <div id="post-date" class="h-auto w-2/6">
-                    <h2 class="text-fg-200" >{post.data.pubDate.toLocaleDateString()}</h2>
+                    <h2 class="text-fg-200" >{post.data.pubDate.toLocaleDateString(`${lang}`)}</h2>
 
 
                 </div>

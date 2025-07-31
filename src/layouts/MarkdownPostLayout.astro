@@ -2,7 +2,10 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from '@components/Prose.astro';
 import { Image } from 'astro:assets';
+import { getLangFromUrl, getLanguageLabel, useTranslations } from '@i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate); // convert manually
@@ -15,8 +18,10 @@ const pubDate = new Date(frontmatter.pubDate); // convert manually
             <a href={`/tags/${tag}`}><p class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
         )}
     </div>
-    <p>Published on: {pubDate.toLocaleDateString()}</p>
+    <p>Published on: {pubDate.toLocaleDateString(`${lang}`)}</p>
     <p>Written by {frontmatter.author}</p>
+    <p>{t('post.language')} : {getLanguageLabel(lang)}</p>
+
     <p><em>{frontmatter.description}</em></p>
     <Image src={frontmatter.image.url} width="300" height="200" alt={frontmatter.image.alt} loading={"eager"} />
     
