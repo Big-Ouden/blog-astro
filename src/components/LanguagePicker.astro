@@ -5,7 +5,6 @@ import { getLangFromUrl, useTranslatedPath } from '@i18n/utils';
 const currentLang = getLangFromUrl(Astro.url);
 const translatePath = useTranslatedPath(currentLang);
 ---
-
 {Object.entries(languages).map(([langCode, label]) => (
   langCode === currentLang ? (
     <span class="bg-info text-info-content px-2 py-0 m-0 rounded font-bold cursor-default">{langCode}</span>
