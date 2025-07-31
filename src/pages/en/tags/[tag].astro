@@ -31,15 +31,7 @@ const currentLangPosts = posts.filter((post: any) => {
 });
 ---
 
-<!-- <BaseLayout pageTitle={tag}> -->
-<!---->
-<!---->
-<!---->
-<!--     <p class="md:text-3xl">Posts en lien avec <span>{tag}</span></p> -->
-<!--   <ul> -->
-<!--     {currentLangPosts.map((posts:any) => <BlogPost url={`/posts/${posts.id}`} title={posts.data.title}/>)} -->
-<!--   </ul> -->
-<!-- </BaseLayout> -->
+
 
 <BlogIndexLayout pageTitle="" allPosts={currentLangPosts}>
     <div slot="introduction" class="">

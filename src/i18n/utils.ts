@@ -1,17 +1,5 @@
 import { defaultLang, languages, showDefaultLang, ui } from "./ui";
 
-export function getLangFromPostUrl(url: URL) {
-  const [, , lang] = url.pathname.split("/");
-  if (lang in ui) return lang as keyof typeof ui;
-  return defaultLang;
-}
-
-export function getLangFromUrlbak(url: URL) {
-  const [, lang] = url.pathname.split("/");
-  if (lang in ui) return lang as keyof typeof ui;
-  return defaultLang;
-}
-
 export function getLangFromUrl(url: URL) {
   const segments = url.pathname.split("/");
 
