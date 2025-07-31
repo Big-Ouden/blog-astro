@@ -9,6 +9,8 @@ const t = useTranslations(lang);
 
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate); // convert manually
+
+
 ---
 <BaseLayout pageTitle={frontmatter.title}>
   <Prose>
