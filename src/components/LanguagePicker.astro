@@ -5,10 +5,11 @@ import { getLangFromUrl, useTranslatedPath } from '@i18n/utils';
 const currentLang = getLangFromUrl(Astro.url);
 const translatePath = useTranslatedPath(currentLang);
 ---
+
 {Object.entries(languages).map(([langCode, label]) => (
   langCode === currentLang ? (
     <span class="bg-info text-info-content px-2 py-0 m-0 rounded font-bold cursor-default">{langCode}</span>
   ) : (
-    <a class="px-2 py-0 m-0 rounded bg-base-200 hover:bg-base-300 transition-colors" href={translatePath('/', langCode)}>{langCode} </a>
+    <a class="px-2 py-0 m-0 rounded bg-base-200 hover:bg-base-300 transition-colors" href={translatePath("/", langCode)}>{langCode} </a>
   )
 ))}
