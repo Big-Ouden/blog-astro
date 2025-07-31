@@ -1,17 +1,26 @@
 import { defaultLang, languages, showDefaultLang, ui } from "./ui";
 
+export function getLangFromPostUrl(url: URL) {
+  const [, , lang] = url.pathname.split("/");
+  if (lang in ui) return lang as keyof typeof ui;
+  return defaultLang;
+}
+
+export function getLangFromUrlbak(url: URL) {
+  const [, lang] = url.pathname.split("/");
+  if (lang in ui) return lang as keyof typeof ui;
+  return defaultLang;
+}
+
 export function getLangFromUrl(url: URL) {
-  const pathSegments = url.pathname.split("/").filter((segment) =>
-    segment !== ""
-  );
-  console.log("Path segments:", pathSegments); // Debug
-  const positionsToCheck = [1, 2]; // Position 2 = index 1, Position 3 = index 2
-  for (const position of positionsToCheck) {
-    const segment = pathSegments[position];
-    if (segment && segment in ui) {
-      return segment as keyof typeof ui;
-    }
+  const segments = url.pathname.split("/");
+
+  // Vérifier les positions 2 et 3
+  for (const position of [1, 2]) {
+    const lang = segments[position];
+    if (lang && lang in ui) return lang as keyof typeof ui;
   }
+
   return defaultLang;
 }
 
@@ -29,4 +38,3 @@ export function useTranslations(lang: keyof typeof ui) {
 export function getLanguageLabel(langCode: string) {
   return languages[langCode as keyof typeof languages] || langCode;
 }
-
