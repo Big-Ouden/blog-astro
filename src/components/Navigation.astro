@@ -52,10 +52,10 @@ const navItems = [
     <!-- Theme toggle button  -->
     <div class="md:flex-none hidden md:flex">
         <ul class="menu menu-horizontal px-1">
-            <li class="text-xl underline underline-offset-6"><a href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
-            <li class="text-xl underline underline-offset-6"><a href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
             <!-- <li class="text-xl underline underline-offset-6"><a href={translatePath('/about/')}>/{t('nav.about')}</a></li> -->
-            <li class="text-xl underline underline-offset-6"><a href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
         </ul>
         
         
@@ -65,7 +65,7 @@ const navItems = [
         <ul class=" px-1">
             {navItems.map((item, index) => (
                 <>
-                    <li class={`text-xl ${isActive(item.href) ? 'bg-accent text-accent-content ' : ''}`}>
+                    <li class={`text-base ${isActive(item.href) ? 'bg-accent text-accent-content ' : ''}`}>
                         <a href={item.href} class={isActive(item.href) ? 'text-accent-content font-bold' : ''}>
                             <div id="logo">
                                 {item.icon === 'home' && (
