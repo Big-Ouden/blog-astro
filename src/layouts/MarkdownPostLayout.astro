@@ -9,6 +9,7 @@ const pubDate = new Date(frontmatter.pubDate); // convert manually
 ---
 <BaseLayout pageTitle={frontmatter.title}>
   <Prose>
+    <div class="bg-info text-info-content px-2 w-fit cursor-pointer" onclick="window.history.back();">Retour</div>
     <div class="tags flex flex-wrap">
         {frontmatter.tags.map((tag: String) => 
             <a href={`/tags/${tag}`}><p class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
