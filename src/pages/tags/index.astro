@@ -2,35 +2,35 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const allPosts = await getCollection("blog");
+import { getLangFromUrl, useTranslations,useTranslatedPath  } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+// Filter posts by language
+const allPosts = await getCollection("blog", ({ id }) => {
+    return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
+});
 const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
+
+
+
 
 const pageTitle = "Tags index";
 ---
-<!-- <style>
-    a {
-      color: #282828;
-    }
-  
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  
-    .tag {
-      margin: 0.25em;
-      /* border-radius: .5em; */
-      padding: .5em 1em;
-      font-size: 1.15em;
-      background-color: #d79921;
-    }
-</style> -->
+
 
 <BaseLayout>
-    <h1>{pageTitle}</h1>
-    <div class="tags">
+    <div class= "flex flex-col justify-between space-y-10 mb-5">
+    
+        <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
+    </div>
+    <div class="flex flex-row flex-wrap space-x-5 bg-primary">
         {tags.map((tag) => 
-            <a href={`/tags/${tag}`}><p class="tag">{tag}</p></a>
+        <a  href={ translatePath(`/tags/`)+tag}>
+                <p>{tag}</p>
+            </a>
         )}
     </div>
 </BaseLayout>
