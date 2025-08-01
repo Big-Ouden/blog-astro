@@ -38,8 +38,8 @@ const sortedProjects = allProjects.sort((a: any, b:any) => {
 	<div id="projects-list" class="grid grid-cols-1 md:grid-cols-2  gap-y-5 gap-x-5">
 
 		{sortedProjects.map((project:any) => 
-		<a href={project.data.isExternal ? project.data.url : `/projects/${project.id}`}>
-				<div class="flex flex-col p-4 space-y-2 border-4 border-base-200 w-full h-fit bg-base-100 backdrop-opacity-50">
+		<a href={project.data.isExternal ? project.data.url : `/projects/${project.id}`} {... (project.data.isExternal && { target: "_blank"})}>
+			<div class="flex flex-col p-4 space-y-2 border-4 border-base-200 w-full h-fit bg-base-100 backdrop-opacity-50 rounded-lg hover:bg-base-200 transition-colors  active:scale-95 transition-transform">
 					<div id="project-title" class="text-xl"> <span class="text-info">
 						#</span>  <span class="decoration-info decoration-2 underline underline-offset-2">{project.data.title}</span>
 					</div>

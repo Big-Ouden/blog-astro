@@ -11,7 +11,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const returnText = t("back");
-const {pageTitle} = Astro.props;
+const {pageTitle, displayReturn} = Astro.props;
 
 const githubUrl="https://link.bigouden.org/going/1?https://github.com/Big-Ouden";
 const linkedinUrl="https://link.bigouden.org/going/4?https://www.linkedin.com/in/simon-b%C3%A9lier-1a2535295/"; 
@@ -28,7 +28,7 @@ const linktreeUrl="https://link.bigouden.org" ;
                 <Header/>
             </header>
             <main class="mb-auto space-y-2">
-                <Return returnText={returnText}/>
+                <Return returnText={returnText} display={displayReturn}/>
                 <slot/>
             </main>
             <footer class="m-0">
