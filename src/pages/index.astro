@@ -8,6 +8,7 @@ const translatePath = useTranslatedPath(lang);
 
 
 import IndexLayout from '@layouts/IndexLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
 import Presentation from "@components/Presentation.astro";
 import PresentationSection from '@components/PresentationSection.astro';
 import ProfilePicture from "@images/bigouden_aperopark_square.jpg";
@@ -151,7 +152,7 @@ const certificationsCards = [
 
 ---
 
-<IndexLayout >
+<BaseLayout >
 
     <Presentation name={name} surname={surname} githubUrl={githubUrl} linkedinUrl={linkedinUrl} resumeUrl={resumeUrl} >
 
@@ -183,4 +184,4 @@ const certificationsCards = [
 
     
 
-</IndexLayout>
+</BaseLayout>
