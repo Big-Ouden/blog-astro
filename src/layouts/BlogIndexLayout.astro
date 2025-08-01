@@ -42,10 +42,10 @@ const sortedPosts = allPosts.sort((a: any, b: any) => {
     </div>
     
 
-    <div id="posts-list" class="flex flex-col w-full space-y-5 mb-5 ">
+    <div id="posts-list" class="flex flex-col w-full space-y-4 mb-5 ">
     {sortedPosts.map((post: any) =>
 
-        <a href={`/posts/${post.id}`} class="hover:bg-base-200 transition-colors p-4 active:scale-95 transition-transform ">
+        <a href={`/posts/${post.id}`} class="hover:bg-base-200 transition-colors  py-2 space-y-2 px-4 active:scale-95 transition-transform ">
             <div id="post" class="flex flex-col md:flex-row w-auto m-2  ">
                 <div id="post-date" class="h-auto w-2/6">
                     <h2 class="text-fg-200" >{post.data.pubDate.toLocaleDateString(`${lang}`)}</h2>
