@@ -4,10 +4,13 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import BackToTop from "@components/BackToTop.astro";
 import Head from "@components/Head.astro";
-import { getLangFromUrl } from '@i18n/utils';
+import Return from "@components/ReturnButton.astro";
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
+const returnText = t("back");
 const {pageTitle} = Astro.props;
 
 const githubUrl="https://link.bigouden.org/going/1?https://github.com/Big-Ouden";
@@ -24,7 +27,8 @@ const linktreeUrl="https://link.bigouden.org" ;
             <header class="">
                 <Header/>
             </header>
-            <main class="mb-auto">
+            <main class="mb-auto space-y-2">
+                <Return returnText={returnText}/>
                 <slot/>
             </main>
             <footer class="m-0">

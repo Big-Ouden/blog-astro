@@ -15,6 +15,7 @@ export const ui = {
     "nav.tags": "Tags",
     "nav.blog": "Blog",
     "post.language": "Language",
+    "back": "Back",
   },
   fr: {
     "nav.home": "Accueil",
@@ -23,6 +24,6 @@ export const ui = {
     "nav.blog": "Blog",
     "nav.projects": "Projets",
     "post.language": "Langue",
+    "back": "Retour",
   },
 } as const;
-
