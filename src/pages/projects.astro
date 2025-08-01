@@ -13,6 +13,6 @@ const allProjects = await getCollection("projects", ({ id }) => {
 
 // const allProjects = await getCollection("projects");
 ---
-<ProjectsIndexLayout pageTitle="Posts" allProjects={allProjects}>
-  
+<ProjectsIndexLayout pageTitle="Projets" allProjects={allProjects}>
+	<p slot="introduction"></p> 
 </ProjectsIndexLayout>
