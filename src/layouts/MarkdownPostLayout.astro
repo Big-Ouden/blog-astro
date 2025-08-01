@@ -14,9 +14,9 @@ const pubDate = new Date(frontmatter.pubDate); // convert manually
 ---
 <BaseLayout pageTitle={frontmatter.title}>
   <Prose>
-    <div class="tags flex flex-wrap space-x-1">
+    <div class="tags flex flex-wrap space-x-1 ">
         {frontmatter.tags.map((tag: String) => 
-            <a href={translatePath(`/tags/${tag}`)}><p class="tag pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content">{tag}</p></a>
+            <a href={translatePath(`/tags/${tag}`)}><p class="tag pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content rounded-lg">{tag}</p></a>
         )}
     </div>
     <p>Published on: {pubDate.toLocaleDateString(`${lang}`)}</p>

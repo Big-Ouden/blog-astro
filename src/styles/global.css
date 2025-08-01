@@ -40,9 +40,9 @@
   --color-warning-content: #282828;
   --color-error: #FB4934;
   --color-error-content: #282828;
-  --radius-selector: 0rem;
-  --radius-field: 0rem;
-  --radius-box: 0rem;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 0px;
@@ -105,4 +105,13 @@ body {
   max-width: 85ch;
   padding: 1rem;
   line-height: 1.5;
+}
+
+a{
+    border-radius: 0.5rem;
+}
+
+
+img {
+  border-radius: 0rem;
 }
