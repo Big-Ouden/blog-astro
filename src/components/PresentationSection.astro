@@ -55,7 +55,7 @@ const {
                                         {card.location}
                                     </div>
                                 </h3>
-                                <h3 id="cardData" class="mt-1 md:mt-0 p-1 border block w-fit md:w-auto md:inline-block align-top border-info">{card.date}</h3>
+                                <h3 id="cardData" class="mt-1 md:mt-0 p-1 border block w-fit md:w-auto md:inline-block align-top border-info rounded-lg">{card.date}</h3>
                             </div>
                             {card.content && card.content.length > 0 && (
                                 <p>
@@ -74,7 +74,7 @@ const {
                             <div class="card-actions justify-end">
                                 {card.tags.map((tag)=> 
                 
-                                    <div class="badge badge-outline border border-secondary text-xs md:text-sm ">{tag}</div>
+                                    <div class="badge  badge-outline border border-secondary  text-xs md:text-sm ">{tag}</div>
                                 )}
                             </div>
                         </div>
