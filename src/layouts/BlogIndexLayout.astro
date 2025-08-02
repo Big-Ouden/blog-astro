@@ -1,16 +1,10 @@
 ---
 import {Image} from "astro:assets";
 import BaseLayout from '@layouts/BaseLayout.astro';
-
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-
-// const allPosts = await getCollection("blog");
-
-// Filter posts by language
 
 interface Props {
     pageTitle?: String;
@@ -20,82 +14,101 @@ interface Props {
 const {
     pageTitle = "Posts",
     allPosts
-
 } = Astro.props;
-// Trier les posts par date de publication (plus récent en premier)
+
 const sortedPosts = allPosts.sort((a: any, b: any) => {
     return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
 });
 
+
+const batchSize = 5;
+const increment = 5;
 ---
-<BaseLayout >
-    <div class="flex flex-col justify-between mb-2">
 
-        {(pageTitle  ? (
-            <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
-            <slot name="introduction" class=""/>
-        ): (
-            <slot name="introduction" class=""/>
-            <div></div>
-        ))}
+<BaseLayout>
+  <div class="flex flex-col justify-between my-10">
+    {(pageTitle ? (
+      <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
+      <slot name="introduction" />
+    ) : (
+      <slot name="introduction" />
+      <div></div>
+    ))}
+  </div>
 
-    </div>
-    
-
-    <div id="posts-list" class="flex flex-col w-full space-y-4 mb-5 ">
-    {sortedPosts.map((post: any) =>
-
-        <a href={`/posts/${post.id}`} class="hover:bg-base-200 transition-colors  py-2 space-y-2 px-4 active:scale-95 transition-transform ">
-            <div id="post" class="flex flex-col md:flex-row w-auto m-2  ">
-                <div id="post-date" class="h-auto w-2/6">
-                    <h2 class="text-fg-200" >{post.data.pubDate.toLocaleDateString(`${lang}`)}</h2>
-
-
-                </div>
-                <div id="post-infos" class="flex flex-col h-auto w-full">
-                    <div id="post-title" class=" w-auto h-auto text-xl ">
-                        <h1> <span class="text-info" >#</span> <span class="underline underline-offset-5 decoration-info decoration-2 "> {post.data.title} </span> </h1>
-
-
-                    </div>
-                    <div id="post-description" class="text-fg-200 w-auto h-full">
-                        <p>
-                            {(post.data.description.length > 50) ? (
-
-                                post.data.description.slice(0, 50) + "..."
-                            ) : (
-                                post.data.description
-                            
-
-                            )}
-                        </p>
-                    </div>
-
-                </div>
-                <div class="w-2/6 m-0 hidden md:block">
-                    <div class=" flex flex-col  items-center">
-                        {post.data.image && (
-                            <Image 
-                                src={post.data.image.url} 
-                                alt=""
-                                class="h-fit w-fit items-center "
-                                width="50"
-                            height="50"
-                            loading={"lazy"}
-                            />
-                        )} 
-                    </div>
-                    
-                </div>
-
+  <div id="posts-list" class="flex flex-col w-full gap-5 mb-10">
+    {sortedPosts.map((post: any, index: number) => (
+      <a 
+        href={`/posts/${post.id}`} 
+        class="hover:bg-base-200 transition-colors  px-4 py-2 active:scale-95 transition-transform"
+            style={`display: ${index < batchSize ? 'block' : 'none'}`} 
+        class:list-item
+      >
+        <div class="flex flex-col md:flex-row w-auto m-2">
+          <div class="h-auto w-2/6">
+            <h2 class="text-fg-200">{post.data.pubDate.toLocaleDateString(`${lang}`)}</h2>
+          </div>
+          <div class="flex flex-col h-auto w-full">
+            <div class="w-auto h-auto text-xl">
+              <h1>
+                <span class="text-info">#</span>
+                <span class="underline underline-offset-5 decoration-info decoration-2">{post.data.title}</span>
+              </h1>
             </div>
-        </a>
-    )}
-    </div>
+            <div class="text-fg-200 w-auto h-full">
+              <p>
+                {(post.data.description.length > 50)
+                  ? post.data.description.slice(0, 50) + "..."
+                  : post.data.description}
+              </p>
+            </div>
+          </div>
+          <div class="w-2/6 m-0 hidden md:block">
+            <div class="flex flex-col items-center">
+              {post.data.image && (
+                <Image 
+                  src={post.data.image.url} 
+                  alt=""
+                  class="h-fit w-fit items-center"
+                  width="50"
+                  height="50"
+                  loading="eager"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
 
+  <div class="text-center my-10  ">
+        <div class="divider">
+            <button id="load-more" class="bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent hover:text-accent-content transition-colors cursor-pointer">
+                Load More
+            </button>
+        </div>
+  </div>
 
+  <script is:raw>
+    const loadMoreBtn = document.getElementById('load-more');
+    const posts = [...document.querySelectorAll('#posts-list > a')];
+    let visible = 5;
+    const increment = 5;
 
-    <slot name="content" />
+    loadMoreBtn.addEventListener('click', () => {
+      for (let i = visible; i < visible + increment; i++) {
+        if (posts[i]) posts[i].style.display = 'block';
+      }
+      visible += increment;
+      if (visible >= posts.length) loadMoreBtn.style.display = 'none';
+    });
 
+    if (visible >= posts.length) {
+      loadMoreBtn.style.display = 'none';
+    }
+  </script>
 
+  <slot name="content" />
 </BaseLayout>
+
