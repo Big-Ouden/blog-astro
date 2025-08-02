@@ -16,6 +16,7 @@ export const ui = {
     "nav.blog": "Blog",
     "post.language": "Language",
     "back": "Back",
+    "more": "Load more",
   },
   fr: {
     "nav.home": "Accueil",
@@ -25,5 +26,6 @@ export const ui = {
     "nav.projects": "Projets",
     "post.language": "Langue",
     "back": "Retour",
+    "more": "Charger plus",
   },
 } as const;

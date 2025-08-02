@@ -22,7 +22,7 @@ const sortedPosts = allPosts.sort((a: any, b: any) => {
 
 
 const batchSize = 5;
-const increment = 5;
+const maxCharDesc = 75;
 ---
 
 <BaseLayout>
@@ -57,8 +57,8 @@ const increment = 5;
             </div>
             <div class="text-fg-200 w-auto h-full">
               <p>
-                {(post.data.description.length > 50)
-                  ? post.data.description.slice(0, 50) + "..."
+                {(post.data.description.length > maxCharDesc)
+                  ? post.data.description.slice(0, maxCharDesc) + "..."
                   : post.data.description}
               </p>
             </div>
@@ -84,8 +84,8 @@ const increment = 5;
 
   <div class="text-center my-10  ">
         <div class="divider">
-            <button id="load-more" class="bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent hover:text-accent-content transition-colors cursor-pointer">
-                Load More
+            <button id="load-more" class="text-xs bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent hover:text-accent-content transition-colors cursor-pointer">
+                {t("more")}
             </button>
         </div>
   </div>
