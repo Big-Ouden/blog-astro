@@ -17,6 +17,7 @@ export const ui = {
     "post.language": "Language",
     "back": "Back",
     "more": "Load more",
+    "resume": "My resume",
   },
   fr: {
     "nav.home": "Accueil",
@@ -27,5 +28,6 @@ export const ui = {
     "post.language": "Langue",
     "back": "Retour",
     "more": "Charger plus",
+    "resume": "Mon CV",
   },
 } as const;
