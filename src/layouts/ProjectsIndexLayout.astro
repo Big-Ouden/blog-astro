@@ -38,7 +38,7 @@ const sortedProjects = allProjects.sort((a: any, b:any) => {
 	<div id="projects-list" class="grid grid-cols-1 md:grid-cols-2  gap-y-5 gap-x-5">
 
 		{sortedProjects.map((project:any) => 
-		<a 
+		<a id="project-link" 
   		href={project.data.isExternal ? project.data.url : `/projects/${project.id}`}
   		target={project.data.isExternal ? "_blank" : undefined}
   		rel={project.data.isExternal ? "noopener" : undefined}
