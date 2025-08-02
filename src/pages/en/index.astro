@@ -23,132 +23,128 @@ const resumeUrl="https://rxresu.me/simon.belier29/cv-simon-belier" ;
 
 const educationCards = [
     {
-        cardTitle: "Diplôme d'ingénieur en informatique parcours HPC",
+        cardTitle: "Master's degree in Computer Science with a focus on HPC",
         location: "Évry, France",
         date: "Sept 2023 - 2026",
-        tags: ["HPC", "Architecture système", "Systèmes d'exploitation"],
+        tags: ["HPC", "System Architecture", "Operating Systems"],
     },
     {
-        cardTitle: "Baccalauréat, options : Maths, Physique, NSI",
+        cardTitle: "Baccalaureate, options: Math, Physics, Computer Science",
         location: "Brest, France",
         company: "Lycée Amiral Ronarc'h",
-        date: "2021-2025",
-        tags: ["Science", "Mention TB", "Mention européenne"],
+        date: "2021",
+        tags: ["Science", "High Honors", "European Distinction"],
     }
 ];
 
 const experienceCards = [
     {
-        cardTitle: "Stage de recherche en cyber sécurité",
-        location: "Sherbrokke, Québec, Canada",
-        company: "Université de sherbrooke",
-        date: "Mai-Juin 2025 (4 mois)",
-        tags: ["Java", "TLS 1.3", "Cybersécurité", "Génération de tests"],
+        cardTitle: "Research Internship in Cybersecurity",
+        location: "Sherbrooke, Québec, Canada",
+        company: "Sherbrooke University",
+        date: "May-June 2025 (4 months)",
+        tags: ["Java", "TLS 1.3", "Cybersecurity", "Test Generation"],
         content: [
-            "Développement d'un processus de génération automatique de tests TLS 1.3 basé sur des spécifications formelles B via l'outil ProB dans un contexte de crypto post-quantique.",
-            "Conception et implémentation des critères d'évaluation robustes pour valider les tests générés.",
-            "Production d'une documentation technique complète garantissant la pérennité du projet."
+            "Development of an automatic TLS 1.3 test generation process based on formal B specifications using the ProB tool in a post-quantum cryptography context.",
+            "Design and implementation of robust evaluation criteria to validate the generated tests.",
+            "Production of comprehensive technical documentation ensuring the longevity of the project."
         ]
     },
     {
-        cardTitle: "Summer school",
+        cardTitle: "Summer School",
         location: "Évry, France",
         company: "C-19, IMT Starter",
-        date: "Été 2024",
-        tags: ["Webdev", "Fullstack", "ERP", "Management", "Startup"],
+        date: "Summer 2024",
+        tags: ["Web Development", "Fullstack", "ERP", "Management", "Startup"],
         content: [
-            "Développement d'un ERP en B2B et B2C pour organiser des évènements sportifs/ salon / séminaires.",
-            "Planification de projet et création de Startup.",
-            "Développement d'une web app (HTML, CSS, Php)",
+            "Development of a B2B and B2C ERP to organize sports events, trade shows, and seminars.",
+            "Project planning and startup creation.",
+            "Development of a web app (HTML, CSS, PHP)."
         ]
     },
     {
-        cardTitle: "Moniteur de Windsurf",
-        location: "Bretagne, France",
+        cardTitle: "Windsurfing Instructor",
+        location: "Brittany, France",
         company: "NPI Plougonvelin",
         date: "2021, 2022-2024",
-        tags: ["Enseignement", "Sport nautique", "Windsurf", "Communication"],
+        tags: ["Teaching", "Water Sports", "Windsurfing", "Communication"],
         content: [
-            "Enseignement du windsurf à différents niveaux, développant mes compétences en communication claire et pédagogie.",
-            "Collaboration étroite avec l'équipe, renforçant ma capacité à m'exprimer de manière concise et précise."
+            "Teaching windsurfing at various levels, developing my skills in clear communication and pedagogy.",
+            "Close collaboration with the team, enhancing my ability to express myself concisely and precisely."
         ]
     },
-    
-    
 ];
 
 const projectsCards = [
     {
-        cardTitle: "Infrastructure auto-hébergée ",
+        cardTitle: "Self-hosted Infrastructure",
         location: "France",
         company: "",
-        date: "Juillet 2024-présent",
-        tags: ["Docker", "OpenId connect", "DNS/Traefik", "VPN", "Ansible", "Prometheus"],
+        date: "July 2024-present",
+        tags: ["Docker", "OpenId Connect", "DNS/Traefik", "VPN", "Ansible", "Prometheus"],
         content: [
-            "Gestion des machines virtuelles et des conteneurs par l'hyperviseur Ppoxmox avec intégration de la surveillance, du DNS, du VPN et de multiples services.",
-            "Services privés publics avec observation/monitoring et authentification OpenId Connect.",
+            "Management of virtual machines and containers via the Proxmox hypervisor with integration of monitoring, DNS, VPN, and other open-source services.",
+            "Private and public services with monitoring and OpenId Connect authentication."
         ]
     },
     {
-        cardTitle: "Détermination de la densité locale d'un système nucléaire",
+        cardTitle: "Determination of the Local Density of a Nuclear System",
         location: "Évry, France",
         company: "ENSIIE",
-        date: "Octobre 2024",
-        tags: ["C++", "Python", "Armadillo", "Physique quantique", "Numpy", "Valgrind", "POV-Ray"],
+        date: "October 2024",
+        tags: ["C++", "Python", "Armadillo", "Quantum Physics", "Numpy", "Valgrind", "POV-Ray"],
         content: [
-            "Calcul des polynômes d'Hermite et de Laguerre généralisés.",
-            "Mise en oeuvre de tests unitaires.",
-            "Représenter la densité nucléaire locale dans le plan (x, z)(x, z) (Matplotlib) et la densité nucléaire locale dans l'espace (x, y, z)(x, y, z) (POV-Ray)"
+            "Calculation of generalized Hermite and Laguerre polynomials.",
+            "Implementation of unit tests.",
+            "Representation of the local nuclear density in the (x, z) plane (Matplotlib) and the local nuclear density in space (x, y, z) (POV-Ray)."
         ]
     },
     {
-        cardTitle: "Simulation des Solutions d'un oscillateur harmonique quantique",
+        cardTitle: "Simulation of Solutions for a Quantum Harmonic Oscillator",
         location: "Évry, France",
         company: "ENSIIE",
-        date: "Octobre 2024",
-        tags: ["C++", "Python", "Armadillo", "Physique quantique"],
+        date: "October 2024",
+        tags: ["C++", "Python", "Armadillo", "Quantum Physics"],
         content: [
-            "Calcul des solution de l'equation de l'oscillateur harmonique à 1 dimension.",
-            "Créations de tests unitaires et génération de documentation avec Doxygen.",
-            "Affichage des courbe de probabilités de présence pour différents niveaux d'énergie."
+            "Calculation of solutions for the one-dimensional harmonic oscillator equation.",
+            "Creation of unit tests and generation of documentation with Doxygen.",
+            "Display of particle presence probability curves for different energy levels."
         ]
     },
     {
-        cardTitle: "Développement d'un interpréteur basé sur des images (Piet) ",
+        cardTitle: "Development of an Image-based Interpreter (Piet)",
         location: "Évry, France",
         company: "ENSIIE",
-        date: "Janvier 2024",
+        date: "January 2024",
         tags: ["C", "Valgrind", "GDB", "Makefile"],
         content: [
-            "Développement C et découverte de la programmation impérative.", 
-            "Compréhension de la chaine de compilation.",
-            "Manipulation d'images ppm."
+            "C development and discovery of imperative programming.",
+            "Understanding the compilation chain.",
+            "Manipulation of ppm images."
         ]
     },
 ];
-
 
 const certificationsCards = [
     {
         cardTitle: "Linguaskill English C1+",
         location: "Online",
-        date: "6 mai 2025",
+        date: "May 6, 2025",
         tags: [],
     },
     {
-        cardTitle: "Permis B",
+        cardTitle: "Driver's License B",
         location: "France",
         date: "2021",
         tags: []
     },
     {
-        cardTitle: "Permis Bateau côtier",
+        cardTitle: "Coastal Boat License",
         location: "France",
         date: "2020",
         tags: []
     },
 ];
-
 
 ---
 
@@ -160,10 +156,10 @@ const certificationsCards = [
         Étudiant ingénieur en HPC
     </div>
     <div slot="introduction" >
-        Je m'appelle Simon "BigOuden" BÉLIER, étudiant à l'<a href="https://ensiie.fr" class="text-base font-black">ENSIIE</a> dans le parcours CIDM (Calculs Intensifs et Données Massives) ou <span class="text-base font-black">HPC</span>.
-    </div>
+            I am Simon "BigOuden" BÉLIER, a student at <a href="https://ensiie.fr" class="text-base font-black">ENSIIE</a> in the <span class="text-base font-black">HPC</span> (High-Performance Computing) program.
+        </div>
     <div slot="general-presentation">
-        Ce site fait office à la fois de blog personnel et de portfolio professionnel. J’y partagerai mes réflexions techniques, projets, et découvertes autour du monde de l'informatique et de l'open source en général. N'hésitez pas à checker mes <a class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors" href={translatePath("/blog")}>posts</a> et mes <a href={translatePath("/projects")} class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors" >projets</a>.
+            This site serves as both a personal blog and a professional portfolio. I will share my technical thoughts, projects, and discoveries about the world of computing and open source in general. Feel free to check out my <a class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors" href={translatePath("/blog")}>posts</a> and my <a href={translatePath("/projects")} class="text-base text-info font-black underline underline-offset-2 hover:text-base-content focus:text-primary transition-colors">projects</a>.
     </div>
     <div class="rounded-full  overflow-hidden" slot="profilePicture">
         <Image src={ProfilePicture} alt="Profile" class="hover:scale-105 transition duration-300" loading="eager"/>
@@ -173,10 +169,10 @@ const certificationsCards = [
 
     <div class="flex flex-col   mx-0 mt-2">
         
-        <PresentationSection sectiontitle="Expériences professionnelles" cardList={experienceCards} />
-        <PresentationSection sectiontitle="Formations" cardList={educationCards} />
+        <PresentationSection sectiontitle="Professional Experiences" cardList={experienceCards} />
+        <PresentationSection sectiontitle="Education" cardList={educationCards} />
         <PresentationSection sectiontitle="Certifications" cardList={certificationsCards} />
-        <PresentationSection sectiontitle="Projets" cardList={projectsCards} />
+        <PresentationSection sectiontitle="Projects" cardList={projectsCards} />
 
 
     </div>
