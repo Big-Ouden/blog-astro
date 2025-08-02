@@ -9,7 +9,7 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
 ---
-<BaseLayout>
+<BaseLayout pageTitle={pageTitle}>
     <h1>{pageTitle}</h1>
 	<div class="block">
 		<a href={translatePath("/")}>

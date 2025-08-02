@@ -15,7 +15,7 @@ interface Props {
 const { error } = Astro.props;
 
 ---
-<BaseLayout>
+<BaseLayout pageTitle={pageTitle}>
     <h1>{pageTitle}</h1>
 	<div class="block">
 		<a href={translatePath("/")}>
