@@ -1,4 +1,9 @@
 ---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 interface Props {
   name: string;
   surname: string;
@@ -68,7 +73,7 @@ const {
         </p>
         <div class="hidden md:inline text-center m-5 mb-0  ">
             <a id="resume" href={resumeUrl} target="_blank">
-                <button class="btn btn-active btn-secondary  active:scale-90 transition-transform">Resume</button>
+              <button class="btn btn-active btn-secondary  active:scale-90 transition-transform">{t(`resume`)}</button>
             </a>
         </div>
 
