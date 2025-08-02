@@ -14,8 +14,7 @@ const allPosts = await getCollection("blog", ({ id }) => {
 const pageTitle = "Blog";
 ---
 <BlogIndexLayout pageTitle={pageTitle} allPosts={allPosts}>
-  <p slot="introduction">
-  </p>
+  <h1 slot="title" class="text-3xl my-10">{pageTitle}<span class="text-info">.</span></h1>
   
   <div slot="content">
   </div>

@@ -25,16 +25,10 @@ const batchSize = 5;
 const maxCharDesc = 75;
 ---
 
-<BaseLayout>
-  <div class="flex flex-col justify-between my-10">
-    {(pageTitle ? (
-      <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
-      <slot name="introduction" />
-    ) : (
-      <slot name="introduction" />
-      <div></div>
-    ))}
-  </div>
+<BaseLayout pageTitle={pageTitle}>
+  <!-- <div class="flex flex-col justify-between my-10"> -->
+      <slot name="title" />
+  <!-- </div> -->
 
   <div id="posts-list" class="flex flex-col w-full gap-5 mb-10">
     {sortedPosts.map((post: any, index: number) => (
