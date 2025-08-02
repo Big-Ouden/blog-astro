@@ -1,9 +1,10 @@
 ---
+import { getCollection } from "astro:content";
+
 import BlogPost from '@components/BlogPost.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import BlogIndexLayout from '@layouts/BlogIndexLayout.astro';
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
-import { getCollection } from "astro:content";
 
 
 export async function getStaticPaths() {
@@ -29,14 +30,13 @@ const currentLangPosts = posts.filter((post: any) => {
            post.id.includes(`-${lang}.md`) || 
            post.id.includes(`-${lang}/`);
 });
+
 ---
-
-
-
 <BlogIndexLayout pageTitle="" allPosts={currentLangPosts}>
-    <div slot="introduction" class="">
+    <div slot="introduction" class="flex flex-col space-y-1">
         <h1  class="text-3xl">Posts en lien avec <span class="text-info" >{tag}</span><span class="text-info">.</span></h1>
     </div>
+
 
     <div slot="content">
     </div>

@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+import ProjectsIndexLayout from "@layouts/ProjectsIndexLayout.astro";
+
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const allProjects = await getCollection("projects", ({ id }) => {
+    return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
+});
+
+// const allProjects = await getCollection("projects");
+---
+<ProjectsIndexLayout pageTitle="Projets" allProjects={allProjects}>
+	<p slot="introduction"></p> 
+</ProjectsIndexLayout>
