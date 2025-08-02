@@ -10,8 +10,9 @@ const t = useTranslations(lang);
 const allPosts = await getCollection("blog", ({ id }) => {
     return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
 });
+const pageTitle= "Blog";
 ---
-<BlogIndexLayout pageTitle="Posts" allPosts={allPosts}>
+<BlogIndexLayout pageTitle={pageTitle} allPosts={allPosts}>
   <p slot="introduction">
   </p>
   

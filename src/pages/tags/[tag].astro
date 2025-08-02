@@ -32,7 +32,7 @@ const currentLangPosts = posts.filter((post: any) => {
 });
 
 ---
-<BlogIndexLayout pageTitle="" allPosts={currentLangPosts}>
+<BlogIndexLayout pageTitle={tag} allPosts={currentLangPosts}>
     <div slot="introduction" class="flex flex-col space-y-1">
         <h1  class="text-3xl">Posts en lien avec <span class="text-info" >{tag}</span><span class="text-info">.</span></h1>
     </div>

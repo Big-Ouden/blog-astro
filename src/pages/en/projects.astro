@@ -12,7 +12,8 @@ const allProjects = await getCollection("projects", ({ id }) => {
 });
 
 // const allProjects = await getCollection("projects");
+const pageTitle = t("nav.projects");
 ---
-<ProjectsIndexLayout pageTitle="Projets" allProjects={allProjects}>
+<ProjectsIndexLayout pageTitle={pageTitle} allProjects={allProjects}>
 	<p slot="introduction"></p> 
 </ProjectsIndexLayout>
