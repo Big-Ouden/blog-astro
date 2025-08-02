@@ -19,7 +19,8 @@ export const ui = {
     "more": "Load more",
     "resume": "My resume",
     "meta.desc":
-      "Explore my innovative projects in High-Performance Computing at ENSIIE. Discover technical insights, a personal blog, and resources for tech enthusiasts in my professional portfolio.",
+      "Explore my projects in High-Performance Computing and my blog dedicated to computing and technology.",
+    "meta.title": "Simon Bélier | Blog on Computing and Technological Projects",
   },
   fr: {
     "nav.home": "Accueil",
@@ -32,6 +33,8 @@ export const ui = {
     "more": "Charger plus",
     "resume": "Mon CV",
     "meta.desc":
-      "Découvrez mes projets innovants en Calculs Intensifs à l'ENSIIE. Explorez mon blog et portfolio dédiés à l'informatique, avec des articles et ressources pour passionnés de technologie.",
+      "Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.",
+    "meta.title":
+      "Simon Bélier | Blog sur l'Informatique et Projets Technologiques",
   },
 } as const;
