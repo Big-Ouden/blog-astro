@@ -40,7 +40,7 @@ const pageTitle = "Tags index";
     </div>
     <div class="flex flex-row flex-wrap space-x-5">
         {tags.map((tag) => 
-            <a class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content active:scale-90 transition-transform"  href={ translatePath(`/tags/`)+tag.name}>
+            <a id="tag" class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content active:scale-90 transition-transform"  href={ translatePath(`/tags/`)+tag.name}>
             <p>{tag.name} : ({tag.count})</p>
             </a>
         )}
