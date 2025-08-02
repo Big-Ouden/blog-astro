@@ -1,5 +1,9 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const {pageTitle} = Astro.props;
 
@@ -12,6 +16,8 @@ const {pageTitle} = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta content="0;url=/fr/"  />
     <meta charset="UTF-8"/>
+    <meta name="description" content={t('meta.desc')}>
+
     <title>{pageTitle}</title>
     <!-- <ClientRouter /> -->
 </head>
