@@ -1,0 +1,150 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+import { ui } from '@i18n/ui';
+
+interface Props {
+	display?: boolean;
+}
+
+const {
+	display = true,
+} = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+// Get current path and clean it
+const currentPath = Astro.url.pathname;
+// Remove trailing slash except for root
+const cleanPath = currentPath.replace(/\/$/, '') || '/';
+// Split path into segments
+const allSegments = cleanPath.split('/').filter(segment => segment !== '');
+
+// Remove language codes from segments (fr, en, etc.)
+const pathSegments = allSegments.filter(segment => !(segment in ui));
+
+// Function to generate breadcrumb items
+function generateBreadcrumbs() {
+	const breadcrumbs = [
+		{ 
+			label: t('nav.home'), 
+			href: translatePath('/'),
+			isLast: pathSegments.length === 0
+		}
+	];
+
+	// Handle special cases for posts and projects structure
+	if (pathSegments[0] === 'posts') {
+		// For posts: Accueil > Blog > post name
+		breadcrumbs.push({
+			label: t('nav.blog'),
+			href: translatePath('/blog/'),
+			isLast: false
+		});
+		
+		// Add the post name (last segment)
+		if (pathSegments.length > 1) {
+			const postSlug = pathSegments[pathSegments.length - 1];
+			const postName = decodeURIComponent(postSlug).replace(/-/g, ' ');
+			// Capitalize first letter of each word
+			const formattedName = postName.replace(/\w\S*/g, (txt) => 
+				txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+			);
+			
+			breadcrumbs.push({
+				label: formattedName,
+				href: currentPath,
+				isLast: true
+			});
+		}
+	} else if (pathSegments[0] === 'projects') {
+		// For projects: Accueil > Projets > project name
+		breadcrumbs.push({
+			label: t('nav.projects'),
+			href: translatePath('/projects/'),
+			isLast: pathSegments.length === 1
+		});
+		
+		// Add the project name if it exists (last segment)
+		if (pathSegments.length > 1) {
+			const projectSlug = pathSegments[pathSegments.length - 1];
+			const projectName = decodeURIComponent(projectSlug).replace(/-/g, ' ');
+			// Capitalize first letter of each word
+			const formattedName = projectName.replace(/\w\S*/g, (txt) => 
+				txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
+			);
+			
+			breadcrumbs.push({
+				label: formattedName,
+				href: currentPath,
+				isLast: true
+			});
+		}
+	} else {
+		// Handle other paths normally
+		pathSegments.forEach((segment, index) => {
+			const isLast = index === pathSegments.length - 1;
+			let label = '';
+			let href = '';
+			
+			switch (segment) {
+				case 'blog':
+					label = t('nav.blog');
+					href = translatePath('/blog/');
+					break;
+				case 'projects':
+					label = t('nav.projects');
+					href = translatePath('/projects/');
+					break;
+				case 'tags':
+					label = t('nav.tags');
+					href = translatePath('/tags/');
+					break;
+				default:
+					// Handle dynamic segments like tag names
+					if (pathSegments[0] === 'tags' && index === 1) {
+						// Tag page
+						label = `#${segment}`;
+						href = translatePath(`/tags/${segment}`);
+					} else {
+						// Generic segment
+						label = decodeURIComponent(segment).replace(/-/g, ' ');
+						label = label.charAt(0).toUpperCase() + label.slice(1);
+						href = currentPath;
+					}
+			}
+			
+			if (label) {
+				breadcrumbs.push({
+					label,
+					href,
+					isLast
+				});
+			}
+		});
+	}
+	
+	return breadcrumbs;
+}
+
+const breadcrumbItems = generateBreadcrumbs();
+---
+
+{display && (
+		<div class="breadcrumbs text-sm">
+			<ul>
+				{breadcrumbItems.map((item, index) => (
+					<li>
+						{item.isLast ? (
+							<span class="text-base-content/70">{item.label}</span>
+						) : (
+							<a href={item.href} class="hover:text-primary transition-colors">
+								{item.label}
+							</a>
+						)}
+					</li>
+				))}
+			</ul>
+		</div>
+)}
