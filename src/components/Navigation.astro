@@ -65,7 +65,7 @@ const navItems = [
         <ul class=" px-1">
             {navItems.map((item, index) => (
                 <>
-                    <li class={`text-base ${isActive(item.href) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
+                    <li class={`text-base my-1 ${isActive(item.href) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
                         <a href={item.href} class={isActive(item.href) ? 'text-accent-content font-bold' : ''}>
                             <div id="logo">
                                 {item.icon === 'home' && (
