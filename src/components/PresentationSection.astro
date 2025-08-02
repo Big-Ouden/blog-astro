@@ -27,7 +27,7 @@ const {
 
 
 <div  class="collapse collapse-arrow  my-1 bg-none">
-    <input type="checkbox" class="peer" />
+    <input id="collaspe-arrow" type="checkbox" class="peer" />
     <div class="collapse-title  underline underline-offset-4 self-left mb-2 text-xl md:text-2xl pb-0 cursor-pointer">{sectiontitle}</div>
     <div class="collapse-content text-sm  ">
         <div class="w-full  flex flex-col ">
@@ -40,7 +40,7 @@ const {
                         <div class="card-body">
                             <h2 id="cardTitle" class="card-title text-accent">{card.cardTitle}</h2>
                             {card.company && ( 
-                                <h2 id="company" class="text-sm ">{card.company}</h2>
+                                <h3 id="company" class="text-sm ">{card.company}</h3>
                             )}
                             <div id="subTitle" class="flex flex-col  md:inline-flex md:flex-row justify-between md:items-center mb-2 ">
                                 <h3 id="location" class="inline-flex items-baseline ">

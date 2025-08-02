@@ -34,13 +34,13 @@ const navItems = [
 
 <div class="navbar bg-none  md:flex">
     <div class="flex-none md:hidden">
-        <button class="btn btn-circle btn-ghost" popovertarget="popover-1" style="anchor-name:--anchor-1">
+        <button id="collapse-navbar" class="btn btn-circle btn-ghost" popovertarget="popover-1" style="anchor-name:--anchor-1">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg>
         </button>
     </div>
     <div class="flex-1">
         <div class="inline-flex items-center    ">
-            <a class="text-xl md:text-3xl center inline-flex items-center  justify-between" href={translatePath('/')}>
+            <a id="nav-link" class="text-xl md:text-3xl center inline-flex items-center  justify-between" href={translatePath('/')}>
                 <Image src={CatGif} alt="cat gif" height="50" loading={"eager"}/>
                 <div>
                     BigOuden
@@ -52,10 +52,10 @@ const navItems = [
     <!-- Theme toggle button  -->
     <div class="md:flex-none hidden md:flex">
         <ul class="menu menu-horizontal px-1">
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="blog" href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="projects" href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
             <!-- <li class="text-xl underline underline-offset-6"><a href={translatePath('/about/')}>/{t('nav.about')}</a></li> -->
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
+            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="tags" href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
         </ul>
         
         
@@ -66,7 +66,7 @@ const navItems = [
             {navItems.map((item, index) => (
                 <>
                     <li class={`text-base my-1 ${isActive(item.href) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
-                        <a href={item.href} class={isActive(item.href) ? 'text-accent-content font-bold' : ''}>
+                        <a id="nav-link" href={item.href} class={isActive(item.href) ? 'text-accent-content font-bold' : ''}>
                             <div id="logo">
                                 {item.icon === 'home' && (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

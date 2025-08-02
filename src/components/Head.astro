@@ -10,13 +10,30 @@ const {pageTitle} = Astro.props;
 ---
 <head>
     <meta charset="utf-8"/>
-    <link rel="icon" type="image/svg+xml+gif" href="/cat.gif" />
+    <link rel="icon" type="image/svg+xml+gif" href="/favicon.svg" />
     <link rel="canonical" href="https://bigouden.org/"/>
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta content="0;url=/fr/"  />
     <meta charset="UTF-8"/>
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://bigouden.org">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Simon Bélier | Blog sur l'Informatique et Projets Technologiques">
+    <meta property="og:description" content="Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.">
+    <meta property="og:image" content="">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="bigouden.org">
+    <meta property="twitter:url" content="https://bigouden.org">
+    <meta name="twitter:title" content="Simon Bélier | Blog sur l'Informatique et Projets Technologiques">
+    <meta name="twitter:description" content="Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.">
+    <meta name="twitter:image" content="">
+
+
     <meta name="description" content={t('meta.desc')}>
 
     <title>{pageTitle}</title>
