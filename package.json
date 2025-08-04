@@ -10,18 +10,28 @@
     "lint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.3",
     "@astrojs/preact": "^4.1.0",
     "@astrojs/react": "^4.3.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.2",
+    "@expressive-code/plugin-collapsible-sections": "^0.41.3",
+    "@expressive-code/plugin-line-numbers": "^0.41.3",
     "@tailwindcss/vite": "^4.1.11",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "astro": "^5.12.3",
+    "astro-expressive-code": "^0.41.3",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.0",
+    "expressive-code-fullscreen": "^1.0.0",
     "react-dom": "^19.1.1",
     "react-github-calendar": "^4.5.9",
+    "rehype-katex": "^7.0.1",
+    "remark-custom-header-id": "^1.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "remark-toc": "^9.0.0",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
