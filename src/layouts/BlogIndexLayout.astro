@@ -17,7 +17,14 @@ const {
 } = Astro.props;
 
 const sortedPosts = allPosts.sort((a: any, b: any) => {
-    return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+    const dateComparison = new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
+    
+    // If dates are the same, sort alphabetically by title
+    if (dateComparison === 0) {
+        return a.data.title.localeCompare(b.data.title);
+    }
+    
+    return dateComparison;
 });
 
 
