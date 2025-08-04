@@ -21,6 +21,7 @@ export const ui = {
     "meta.desc":
       "Explore my projects in High-Performance Computing and my blog dedicated to computing and technology.",
     "meta.title": "Simon Bélier | Blog on Computing and Technological Projects",
+    "md.toc" : "Table of content",
   },
   fr: {
     "nav.home": "Accueil",
@@ -35,6 +36,7 @@ export const ui = {
     "meta.desc":
       "Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.",
     "meta.title":
-      "Simon Bélier | Blog sur l'Informatique et Projets Technologiques",
+    "Simon Bélier | Blog sur l'Informatique et Projets Technologiques",
+    "md.toc" : "Sommaire",
   },
 } as const;
