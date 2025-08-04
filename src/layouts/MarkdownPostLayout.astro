@@ -2,7 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from '@components/Prose.astro';
 import { getLangFromUrl, getLanguageLabel, useTranslations, useTranslatedPath } from '@i18n/utils';
-import { Image } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -11,21 +11,30 @@ const translatePath = useTranslatedPath(lang);
 const { frontmatter } = Astro.props;
 const pubDate = new Date(frontmatter.pubDate); // convert manually
 
+
+
 ---
 <BaseLayout pageTitle={frontmatter.title}>
-  <Prose>
-    <div class="tags flex flex-wrap space-x-1 ">
+  <h1 class="text-xl md:text-3xl r ">{frontmatter.title}</h1>
+  <!-- <img src={frontmatter.image.url}  alt={frontmatter.image.alt} loading={"eager"} class="w-full" /> -->
+  <div class="inline-flex items-center flex-wrap flex-row space-x-1 mb-5 ">
+    <p>Posted on <span class="text-accent ">{pubDate.toLocaleDateString(`${lang}`)} </span> ::</p> 
+    <p>By {frontmatter.author} ::</p>
+    <p>{getLanguageLabel(lang)} ::</p>
+    
+    <!-- <p><em>{frontmatter.description}</em></p> -->
+    
+    <!-- <div class="tags flex flex-wrap space-x-1 "> -->
         {frontmatter.tags.map((tag: String) => 
             <a id="tag" href={translatePath(`/tags/${tag}`)}><p class="tag pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content rounded-lg active:scale-90 focus:scale-90  transition-transform">{tag}</p></a>
         )}
-    </div>
-    <p>Published on: {pubDate.toLocaleDateString(`${lang}`)}</p>
-    <p>Written by {frontmatter.author}</p>
-    <p>{t('post.language')} : {getLanguageLabel(lang)}</p>
+    <!-- </div> -->
+  </div>
+  <div class="divider"></div>
 
-    <p><em>{frontmatter.description}</em></p>
-    <Image src={frontmatter.image.url} width="300" height="200" alt={frontmatter.image.alt} loading={"eager"} />
-    
-    <slot />
-  </Prose>
+  <div class="mb-20" >
+    <Prose >
+      <slot  />
+    </Prose>
+  </div>
 </BaseLayout>
