@@ -18,6 +18,36 @@ Welcome to my _new blog_ about learning Astro! Here, I will share my learning jo
 
 # What I've accomplished
 
+
+# GFM
+
+## Autolink literals
+
+www.example.com, https://example.com, and contact@example.com.
+
+## Footnote
+
+A note[^1]
+
+[^1]: Big note.
+
+## Strikethrough
+
+~one~ or ~~two~~ tildes.
+
+## Table
+
+| a | b  |  c |  d  |
+| :-: | :-: | :-: | :-: |
+| a | b  |  c |  d  |
+| a | b  |  c |  d  |
+
+## Tasklist
+
+* [ ] to do
+* [x] done
+
+
 1. **Installing Astro**: First, I created a new Astro project and set up my online accounts.
 
 2. **Making Pages**: I then learned how to make pages by creating new `.astro` files and placing them in the `src/pages/` folder.
@@ -29,7 +59,48 @@ Welcome to my _new blog_ about learning Astro! Here, I will share my learning jo
 I will finish the Astro tutorial, and then keep adding more posts. Watch this space for more to come.
 
 
-```bash
+
+
+# Mathematics Examples
+
+Here are some mathematical expressions using LaTeX:
+
+## Inline Math
+The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ which helps solve quadratic equations.
+
+## Block Math
+The famous Euler's identity:
+$$e^{i\pi} + 1 = 0$$
+
+## More Complex Examples
+
+**Integral:**
+$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
+
+**Matrix:**
+$$
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix} \begin{pmatrix}
+x \\
+y
+\end{pmatrix} = \begin{pmatrix}
+ax + by \\
+cx + dy
+\end{pmatrix}
+$$
+
+**Summation:**
+$$\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}$$
+
+**Limits:**
+$$\lim_{x \to 0} \frac{\sin x}{x} = 1$$
+
+# Code
+
+```bash wrap=false
+<!-- init_rapport.sh -->
 #!/usr/bin/env bash
 # === Couleurs ===
 RED='\033[0;31m'
@@ -297,6 +368,9 @@ if [ "$MANAGE_MODE" = false ]; then
 fi
 
 ```
+
+texte  
+
 
 ```bash
 #!/usr/bin/env bash
