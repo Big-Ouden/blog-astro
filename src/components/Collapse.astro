@@ -1,0 +1,14 @@
+---
+const {
+    sectionTitle, 
+} = Astro.props
+---
+<div  class="collapse collapse-arrow  my-1 bg-none">
+    <input id="collaspe-arrow" type="checkbox" class="peer" />
+    <div class="collapse-title  underline underline-offset-4 self-left mb-2 text-xl md:text-2xl pb-0 cursor-pointer">{sectionTitle}</div>
+    <div class="collapse-content text-sm  ">
+
+        <slot/>
+
+    </div>
+</div>
