@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '@i18n/utils';
 import { ui } from '@i18n/ui';
 
 interface Props {
@@ -12,77 +12,93 @@ const {
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
-
-// Get current path and clean it
 const currentPath = Astro.url.pathname;
+
 // Remove trailing slash except for root
 const cleanPath = currentPath.replace(/\/$/, '') || '/';
-// Split path into segments
+
+// Split path into segments and filter out empty ones
 const allSegments = cleanPath.split('/').filter(segment => segment !== '');
 
-// Remove language codes from segments (fr, en, etc.)
+// Remove language codes (fr, en, etc.)
 const pathSegments = allSegments.filter(segment => !(segment in ui));
 
-// Function to generate breadcrumb items
+/**
+ * Utility function to format breadcrumb segment names.
+ * - Decodes URL-encoded characters (%20, %C3%A9, etc.)
+ * - Decodes HTML entities (&amp;, &eacute;, etc.)
+ * - Replaces hyphens/underscores with spaces
+ * - Capitalizes each word (locale-aware for accents)
+ */
+function formatSegmentName(segment: string): string {
+	let decoded = decodeURIComponent(segment);
+
+	// Decode HTML entities
+	if (globalThis.document) {
+		const txt = document.createElement('textarea');
+		txt.innerHTML = decoded;
+		decoded = txt.value;
+	}
+
+	decoded = decoded.replace(/[-_]/g, ' ');
+
+	decoded = decoded.replace(/\p{L}[\p{L}\p{M}]*/gu, (word) =>
+		word.charAt(0).toLocaleUpperCase(lang) + word.slice(1)
+	);
+
+	return decoded;
+}
+
+/**
+ * Generates the list of breadcrumbs based on current path
+ */
 function generateBreadcrumbs() {
 	const breadcrumbs = [
 		{ 
 			label: t('nav.home'), 
-			href: translatePath('/'),
+			href: getLocalizedPath(lang, ''),
 			isLast: pathSegments.length === 0
 		}
 	];
 
-	// Handle special cases for posts and projects structure
+	// Special handling for posts
 	if (pathSegments[0] === 'posts') {
-		// For posts: Accueil > Blog > post name
 		breadcrumbs.push({
 			label: t('nav.blog'),
-			href: translatePath('/blog/'),
+			href: getLocalizedPath(lang, 'blog'),
 			isLast: false
 		});
 		
-		// Add the post name (last segment)
 		if (pathSegments.length > 1) {
 			const postSlug = pathSegments[pathSegments.length - 1];
-			const postName = decodeURIComponent(postSlug).replace(/-/g, ' ');
-			// Capitalize first letter of each word
-			const formattedName = postName.replace(/\w\S*/g, (txt) => 
-				txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
-			);
-			
 			breadcrumbs.push({
-				label: formattedName,
+				label: formatSegmentName(postSlug),
 				href: currentPath,
 				isLast: true
 			});
 		}
-	} else if (pathSegments[0] === 'projects') {
-		// For projects: Accueil > Projets > project name
+	} 
+	
+	// Special handling for projects
+	else if (pathSegments[0] === 'projects') {
 		breadcrumbs.push({
 			label: t('nav.projects'),
-			href: translatePath('/projects/'),
+			href: getLocalizedPath(lang, 'projects'),
 			isLast: pathSegments.length === 1
 		});
 		
-		// Add the project name if it exists (last segment)
 		if (pathSegments.length > 1) {
 			const projectSlug = pathSegments[pathSegments.length - 1];
-			const projectName = decodeURIComponent(projectSlug).replace(/-/g, ' ');
-			// Capitalize first letter of each word
-			const formattedName = projectName.replace(/\w\S*/g, (txt) => 
-				txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
-			);
-			
 			breadcrumbs.push({
-				label: formattedName,
+				label: formatSegmentName(projectSlug),
 				href: currentPath,
 				isLast: true
 			});
 		}
-	} else {
-		// Handle other paths normally
+	} 
+	
+	// Generic handling for other paths
+	else {
 		pathSegments.forEach((segment, index) => {
 			const isLast = index === pathSegments.length - 1;
 			let label = '';
@@ -91,27 +107,33 @@ function generateBreadcrumbs() {
 			switch (segment) {
 				case 'blog':
 					label = t('nav.blog');
-					href = translatePath('/blog/');
+					href = getLocalizedPath(lang, 'blog');
 					break;
 				case 'projects':
 					label = t('nav.projects');
-					href = translatePath('/projects/');
+					href = getLocalizedPath(lang, 'projects');
 					break;
 				case 'tags':
 					label = t('nav.tags');
-					href = translatePath('/tags/');
+					href = getLocalizedPath(lang, 'tags');
+					break;
+				case 'about':
+					label = t('nav.about');
+					href = getLocalizedPath(lang, 'about');
+					break;
+				case 'contact':
+					label = t('nav.contact');
+					href = getLocalizedPath(lang, 'contact');
 					break;
 				default:
-					// Handle dynamic segments like tag names
+					// Special handling for tag detail pages
 					if (pathSegments[0] === 'tags' && index === 1) {
-						// Tag page
-						label = `#${segment}`;
-						href = translatePath(`/tags/${segment}`);
+						label = `#${formatSegmentName(segment)}`;
+						href = getLocalizedPath(lang, `tags/${segment}`);
 					} else {
-						// Generic segment
-						label = decodeURIComponent(segment).replace(/-/g, ' ');
-						label = label.charAt(0).toUpperCase() + label.slice(1);
-						href = currentPath;
+						const pathToSegment = pathSegments.slice(0, index + 1).join('/');
+						label = formatSegmentName(segment);
+						href = isLast ? currentPath : getLocalizedPath(lang, pathToSegment);
 					}
 			}
 			
@@ -131,20 +153,27 @@ function generateBreadcrumbs() {
 const breadcrumbItems = generateBreadcrumbs();
 ---
 
-{display && (
-		<div class="breadcrumbs text-sm">
-			<ul>
-				{breadcrumbItems.map((item, index) => (
-					<li>
-						{item.isLast ? (
-							<span class="text-base-content/70">{item.label}</span>
-						) : (
-							<a href={item.href} class="hover:text-primary transition-colors">
-								{item.label}
-							</a>
-						)}
-					</li>
-				))}
-			</ul>
-		</div>
+{display && breadcrumbItems.length > 1 && (
+	<nav class="breadcrumbs text-sm" aria-label="Breadcrumb navigation">
+		<ul>
+			{breadcrumbItems.map((item) => (
+				<li>
+					{item.isLast ? (
+						<span class="text-base-content/70" aria-current="page">
+							{item.label}
+						</span>
+					) : (
+						<a 
+							href={item.href} 
+							class="hover:text-primary transition-colors"
+							aria-label={`Navigate to ${item.label}`}
+						>
+							{item.label}
+						</a>
+					)}
+				</li>
+			))}
+		</ul>
+	</nav>
 )}
+

@@ -1,30 +1,22 @@
 ---
 import {Image} from "astro:assets";
 import CatGif from "@images/cat_2.gif";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath, isActivePath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 const currentPath = Astro.url.pathname;
-function isActive(path: string): boolean {
-    if (path === '/') {
-        return currentPath === '/';
-    }
-    return currentPath.startsWith(path);
-}
+
 const navItems = [
-    { href: translatePath('/'), label: `/${t('nav.home')}`, icon: 'home' },
-    { href: translatePath(`/blog/`), label: `/${t('nav.blog')}`, icon: 'blog' },
-    { href: translatePath('/projects/'), label: `/${t('nav.projects')}`, icon: 'projects' },
-    // { href: translatePath('/about/'), label: `/${t('nav.about')}`, icon: 'about' },
-    { href: translatePath('/tags/'), label: `/${t('nav.tags')}`, icon: 'tags' }
+    { href: getLocalizedPath(lang, '/'), label: `/${t('nav.home')}`, icon: 'home' },
+    { href: getLocalizedPath(lang, '/blog/'), label: `/${t('nav.blog')}`, icon: 'blog' },
+    { href: getLocalizedPath(lang, '/projects/'), label: `/${t('nav.projects')}`, icon: 'projects' },
+    // { href: getLocalizedPath(lang, '/about/'), label: `/${t('nav.about')}`, icon: 'about' },
+    { href: getLocalizedPath(lang, '/tags/'), label: `/${t('nav.tags')}`, icon: 'tags' }
 ];
-
-
-
 ---
+
 <!-- <div class="nav-links">
     <a href="/">Home</a>
     <a href="/about/">About</a>
@@ -32,15 +24,17 @@ const navItems = [
     <a href="/tags/">Tags</a>
 </div> -->
 
-<div class="navbar bg-none  md:flex">
+<div class="navbar bg-none md:flex">
     <div class="flex-none md:hidden">
         <button id="collapse-navbar" class="btn btn-circle btn-ghost" popovertarget="popover-1" style="anchor-name:--anchor-1">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block h-5 w-5 stroke-current"> 
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> 
+          </svg>
         </button>
     </div>
     <div class="flex-1">
-        <div class="inline-flex items-center    ">
-            <a id="nav-link" class="text-xl md:text-3xl center inline-flex items-center  justify-between" href={translatePath('/')}>
+        <div class="inline-flex items-center">
+            <a id="nav-link" class="text-xl md:text-3xl center inline-flex items-center justify-between" href={getLocalizedPath(lang, '/')}>
                 <Image src={CatGif} alt="cat gif" height="50" loading={"eager"}/>
                 <div>
                     BigOuden
@@ -49,24 +43,35 @@ const navItems = [
         </div>
     </div>
 
-    <!-- Theme toggle button  -->
+    <!-- Navigation desktop -->
     <div class="md:flex-none hidden md:flex">
         <ul class="menu menu-horizontal px-1">
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="blog" href={translatePath('/blog/')}>/{t('nav.blog')}</a></li>
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="projects" href={translatePath('/projects/')}>/{t('nav.projects')}</a></li>
-            <!-- <li class="text-xl underline underline-offset-6"><a href={translatePath('/about/')}>/{t('nav.about')}</a></li> -->
-            <li class="text-xl underline underline-offset-5 decoration-info decoration-2 "><a id="tags" href={translatePath('/tags/')}>/{t('nav.tags')}</a></li>
+            <li class={`text-xl underline underline-offset-5 decoration-info decoration-2 ${isActivePath(currentPath, getLocalizedPath(lang, '/blog/')) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
+                <a id="blog" href={getLocalizedPath(lang, '/blog/')} class={isActivePath(currentPath, getLocalizedPath(lang, '/blog/')) ? 'text-accent-content font-bold' : ''}>
+                    /{t('nav.blog')}
+                </a>
+            </li>
+            <li class={`text-xl underline underline-offset-5 decoration-info decoration-2 ${isActivePath(currentPath, getLocalizedPath(lang, '/projects/')) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
+                <a id="projects" href={getLocalizedPath(lang, '/projects/')} class={isActivePath(currentPath, getLocalizedPath(lang, '/projects/')) ? 'text-accent-content font-bold' : ''}>
+                    /{t('nav.projects')}
+                </a>
+            </li>
+            <!-- <li class="text-xl underline underline-offset-6"><a href={getLocalizedPath(lang, '/about/')}>/{t('nav.about')}</a></li> -->
+            <li class={`text-xl underline underline-offset-5 decoration-info decoration-2 ${isActivePath(currentPath, getLocalizedPath(lang, '/tags/')) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
+                <a id="tags" href={getLocalizedPath(lang, '/tags/')} class={isActivePath(currentPath, getLocalizedPath(lang, '/tags/')) ? 'text-accent-content font-bold' : ''}>
+                    /{t('nav.tags')}
+                </a>
+            </li>
         </ul>
-        
-        
     </div>
 
-    <div class="dropdown menu w-52 rounded-box bg-base-100  shadow-sm md:hidden" popover id="popover-1" style="position-anchor:--anchor-1">
-        <ul class=" px-1">
+    <!-- Menu mobile -->
+    <div class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm md:hidden" popover id="popover-1" style="position-anchor:--anchor-1">
+        <ul class="px-1">
             {navItems.map((item, index) => (
                 <>
-                    <li class={`text-base my-1 ${isActive(item.href) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
-                        <a id="nav-link" href={item.href} class={isActive(item.href) ? 'text-accent-content font-bold' : ''}>
+                    <li class={`text-base my-1 ${isActivePath(currentPath, item.href) ? 'bg-accent text-accent-content rounded-lg' : ''}`}>
+                        <a id="nav-link" href={item.href} class={isActivePath(currentPath, item.href) ? 'text-accent-content font-bold' : ''}>
                             <div id="logo">
                                 {item.icon === 'home' && (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -97,7 +102,7 @@ const navItems = [
                     </li>
                     {index === 0 && <div class="divider my-0 self-center"></div>}
                 </>
-                ))}
+            ))}
         </ul>
     </div>    
 </div>

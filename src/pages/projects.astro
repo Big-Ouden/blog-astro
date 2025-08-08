@@ -1,19 +1,59 @@
 ---
 import { getCollection } from "astro:content";
 import ProjectsIndexLayout from "@layouts/ProjectsIndexLayout.astro";
-
-import { getLangFromUrl, useTranslations } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getAllLocaleUrls } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+// Filter projects by language
 const allProjects = await getCollection("projects", ({ id }) => {
     return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
 });
 
-// const allProjects = await getCollection("projects");
+// SEO metadata
 const pageTitle = t('nav.projects');
+const pageDescription = t('projects_description');
+const alternateUrls = getAllLocaleUrls('projects');
+
+// Structured data for SEO
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": pageTitle,
+    "description": pageDescription,
+    "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": allProjects.length,
+        "itemListElement": allProjects.map((project, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+                "@type": project.data.isExternal ? "WebPage" : "CreativeWork",
+                "name": project.data.title,
+                "description": project.data.description,
+                "url": project.data.isExternal ? project.data.url : new URL(`projects/${project.id}`, Astro.site).href,
+                "datePublished": project.data.pubDate,
+                ...(project.data.tags && { "keywords": project.data.tags.join(", ") })
+            }
+        }))
+    }
+};
 ---
-<ProjectsIndexLayout pageTitle={pageTitle} allProjects={allProjects}>
-	<p slot="introduction"></p> 
+
+<ProjectsIndexLayout 
+    pageTitle={pageTitle} 
+    allProjects={allProjects}
+    description={pageDescription}
+    alternateUrls={alternateUrls}
+>
+    <!-- SEO: Données structurées JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
+    
+    <!-- SEO: Balises meta spécifiques -->
+    <meta name="robots" content="index, follow" slot="head" />
+    <meta property="og:type" content="website" slot="head" />
+    
+    <div slot="introduction" class="mb-6">
+    </div>
 </ProjectsIndexLayout>

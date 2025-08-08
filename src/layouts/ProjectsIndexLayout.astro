@@ -1,7 +1,6 @@
 ---
-
 import BaseLayout from '@layouts/BaseLayout.astro';
-import {getLangFromUrl, useTranslations } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -9,67 +8,60 @@ const t = useTranslations(lang);
 interface Props {
 	pageTitle?: String;
 	allProjects: any[];
-};
+}
 
 const {
-	pageTitle = "Projects",
+	pageTitle = t('projects'), // Utilise la traduction au lieu de la valeur en dur
 	allProjects,
 } = Astro.props;
 
-const sortedProjects = allProjects.sort((a: any, b:any) => {
+const sortedProjects = allProjects.sort((a: any, b: any) => {
 	return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
 }); 
-
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-
 	<div class="flex flex-col justify-between my-10">
-
-  	{(pageTitle  ? (
+  	{(pageTitle ? (
     	<h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
       <slot name="introduction" class=""/>
-    ): (
+    ) : (
     	<slot name="introduction" class=""/>
       	<div></div>
       ))}
   </div>
-
 	<div id="projects-list" class="grid grid-cols-1 md:grid-cols-2  gap-y-5 gap-x-5">
-
-		{sortedProjects.map((project:any) => 
+		{sortedProjects.map((project: any) => 
 		<a id="project-link" 
-  		href={project.data.isExternal ? project.data.url : `/projects/${project.id}`}
+  		href={project.data.isExternal ? project.data.url : getLocalizedPath(lang, `projects/${project.id}`)}
   		target={project.data.isExternal ? "_blank" : undefined}
   		rel={project.data.isExternal ? "noopener" : undefined}
 		>
 			<div class="flex flex-col p-4 space-y-2 border-4 border-base-200 w-full h-fit bg-base-100 backdrop-opacity-50 rounded-lg hover:bg-base-200 transition-colors  active:scale-95 transition-transform">
-					<div id="project-title" class="text-xl flex flex-row space-x-1"> <span class="text-info">
-						#</span>
-						<span class="decoration-info decoration-2 underline underline-offset-2">
-							{project.data.title}
-						</span>
-						<span>
-							{project.data.isExternal &&( 
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  								<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-								</svg>
-							)}
-						</span>
-					</div>
-					<div id="project-desc" class="text-base">
-						<p>
-							{(project.data.description.length > 50) ? (
+				<div id="project-title" class="text-xl flex flex-row space-x-1">
+					<span class="text-info">#</span>
+					<span class="decoration-info decoration-2 underline underline-offset-2">
+						{project.data.title}
+					</span>
+					<span>
+						{project.data.isExternal && ( 
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  							<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+							</svg>
+						)}
+					</span>
+				</div>
+				<div id="project-desc" class="text-base">
+					<p>
+						{(project.data.description.length > 50) ? (
             		project.data.description.slice(0, 50) + "..."
             		) : (
             		project.data.description
-							)}
-						</p>
-					</div>
+						)}
+					</p>
 				</div>
-			</a>
+			</div>
+		</a>
 		)}
 	</div>
-
-
 </BaseLayout>

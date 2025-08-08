@@ -1,14 +1,37 @@
 ---
 import { languages } from '@i18n/ui';
-import { getLangFromUrl, useTranslatedPath } from '@i18n/utils';
+import { getLangFromUrl, getLocalizedPath } from '@i18n/utils';
 
 const currentLang = getLangFromUrl(Astro.url);
-const translatePath = useTranslatedPath(currentLang);
+
+// Obtenir le chemin actuel sans la langue pour le reconstruire
+const currentPath = Astro.url.pathname;
+const pathSegments = currentPath.split('/').filter(Boolean);
+
+// Supprimer la langue du chemin si elle est présente
+let pathWithoutLang = '/';
+if (pathSegments.length > 0 && pathSegments[0] in languages) {
+  pathWithoutLang = '/' + pathSegments.slice(1).join('/');
+} else {
+  pathWithoutLang = currentPath;
+}
+
+// Nettoyer le chemin (enlever le slash final si ce n'est pas la racine)
+if (pathWithoutLang !== '/' && pathWithoutLang.endsWith('/')) {
+  pathWithoutLang = pathWithoutLang.slice(0, -1);
+}
 ---
+
 {Object.entries(languages).map(([langCode, label]) => (
   langCode === currentLang ? (
     <span class="bg-info text-info-content px-2 py-0 m-0 rounded font-bold cursor-default">{langCode}</span>
   ) : (
-    <a id="language" class="px-2 py-0 m-0 rounded bg-base-200 hover:bg-base-300 transition-colors" href={translatePath("/", langCode)}>{langCode} </a>
+    <a 
+      id="language" 
+      class="px-2 py-0 m-0 rounded bg-base-200 hover:bg-base-300 transition-colors" 
+      href={getLocalizedPath(langCode, pathWithoutLang)}
+    >
+      {langCode}
+    </a>
   )
 ))}

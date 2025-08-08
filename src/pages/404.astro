@@ -1,19 +1,27 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-const pageTitle = "404: Not found";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
-const returnText = t("back");
-
+const pageTitle = "404 – " + t("notFound"); // Add translation for "notFound" in ui.ts
+const homeHref = getLocalizedPath(lang, '');
 ---
+
 <BaseLayout pageTitle={pageTitle}>
-    <h1>{pageTitle}</h1>
-	
-
-	
-
+  <section class="flex flex-col items-center justify-center text-center py-16 px-4">
+    <h1 class="text-6xl font-bold text-primary mb-4">404</h1>
+    <p class="text-2xl font-semibold mb-2">{t("pageNotFound")}</p>
+    <p class="text-base text-base-content/70 mb-8">
+      {t("notFoundDescription") /* e.g. "The page you are looking for does not exist or has been moved." */}
+    </p>
+    <a 
+      href={homeHref}
+      class="px-6 py-3 bg-primary text-primary-content rounded-lg shadow hover:shadow-lg hover:bg-primary-focus transition-all"
+    >
+      {t("backToHome")}
+    </a>
+  </section>
 </BaseLayout>
+

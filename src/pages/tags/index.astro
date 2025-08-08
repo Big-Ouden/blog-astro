@@ -1,18 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
-
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { getLangFromUrl, useTranslations,useTranslatedPath  } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath, getAllLocaleUrls } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 // Filter posts by language
 const allPosts = await getCollection("blog", ({ id }) => {
     return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
 });
 
+// Count tags and sort alphabetically
 const tagCounts = new Map();
 allPosts.forEach((post) => {
     post.data.tags?.forEach((tag) => {
@@ -20,29 +19,37 @@ allPosts.forEach((post) => {
     });
 });
 
-
 const tags = Array.from(tagCounts.entries())
     .map(([name, count]) => ({ name, count }))
-.sort((a, b) => a.name.localeCompare(b.name));
-// const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())].sort();
+    .sort((a, b) => a.name.localeCompare(b.name));
 
-
-
-
-const pageTitle = "Tags index";
+// SEO metadata
+const pageTitle = t('tags.title');
+const pageDescription = t('tags.description');
+const alternateUrls = getAllLocaleUrls('tags');
 ---
 
-
-<BaseLayout pageTitle={pageTitle}>
-    <div class= "flex flex-col justify-between space-y-10 my-10">
-    
+<BaseLayout 
+    pageTitle={pageTitle}
+    description={pageDescription}
+    alternateUrls={alternateUrls}
+>
+    <div class="flex flex-col justify-between space-y-10 my-10">
         <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
     </div>
-    <div class="flex flex-row flex-wrap space-x-5">
-        {tags.map((tag) => 
-            <a id="tag" class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content active:scale-90 transition-transform"  href={ translatePath(`/tags/`)+tag.name}>
-            <p>{tag.name} : ({tag.count})</p>
-            </a>
-        )}
-    </div>
+    
+    {tags.length === 0 ? (
+        <p class="text-gray-500">{t('tags.noTags')}</p>
+    ) : (
+        <div class="flex flex-row flex-wrap space-x-5">
+            {tags.map((tag) => (
+                <a 
+                    href={getLocalizedPath(lang, `tags/${tag.name}`)}
+                    class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content active:scale-90 transition-transform"
+                >
+                    <p>{tag.name} : ({tag.count})</p>
+                </a>
+            ))}
+        </div>
+    )}
 </BaseLayout>

@@ -1,43 +1,118 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPath, getAllLocaleUrls } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const {pageTitle} = Astro.props;
+interface Props {
+  pageTitle?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+  type?: 'website' | 'article' | 'profile';
+}
 
+const {
+  pageTitle = t('meta.title'),
+  description = t('meta.desc'),
+  image = "https://bigouden.org/cat.gif",
+  noindex = false,
+  canonical,
+  type = 'website'
+} = Astro.props;
+
+// URLs localisées pour la page courante
+const currentPath = Astro.url.pathname;
+const localeUrls = getAllLocaleUrls(currentPath);
+
+// URL canonique intelligente - construire l'URL absolue manuellement
+const canonicalUrl = canonical || `https://bigouden.org${localeUrls[lang]}`;
+
+// Génération manuelle des balises hreflang
+const hreflangTags = Object.entries(localeUrls).map(([langCode, path]) => ({
+  hreflang: langCode,
+  href: `https://bigouden.org${path}`
+}));
+
+// Ajouter x-default pointant vers la langue par défaut
+hreflangTags.push({
+  hreflang: 'x-default',
+  href: `https://bigouden.org${localeUrls['fr']}` // Assumant que 'fr' est votre langue par défaut
+});
+
+// RSS feed localisé
+const rssUrl = getLocalizedPath(lang, '/rss.xml');
 ---
+
 <head>
-    <meta charset="utf-8"/>
-    <link rel="icon" type="image/svg+xml+gif" href="/favicon.svg" />
-    <link rel="canonical" href="https://bigouden.org/"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css">
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta content="0;url=/fr/"  />
-    <meta charset="UTF-8"/>
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://bigouden.org">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Simon Bélier | Blog sur l'Informatique et Projets Technologiques">
-    <meta property="og:description" content="Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.">
-    <meta property="og:image" content="https://bigouden.org/cat.gif">
     
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="bigouden.org">
-    <meta property="twitter:url" content="https://bigouden.org">
-    <meta name="twitter:title" content="Simon Bélier | Blog sur l'Informatique et Projets Technologiques">
-    <meta name="twitter:description" content="Découvrez mes projets en Calculs Intensifs et mon blog dédié à l'informatique et à la technologie.">
-    <meta name="twitter:image" content="https://bigouden.org/cat.gif">
-
-
-    <meta name="description" content={t('meta.desc')}>
-    <script defer src="https://umami.bigouden.org/script.js" data-website-id="35c03c60-8a29-4b39-b5d1-d34729fcbe18"></script>
-
+    <!-- Balises hreflang pour le SEO multilingue -->
+    {hreflangTags.map(({ hreflang, href }) => (
+      <link rel="alternate" hreflang={hreflang} href={href} />
+    ))}
+    
+    <!-- Feeds RSS -->
+    <link rel="alternate" type="application/rss+xml" title={`${t('meta.title')} RSS`} href={rssUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    
+    <!-- SEO Meta Tags -->
     <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content={t('meta.title')} />
+    <meta property="og:locale" content={lang} />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:domain" content="bigouden.org" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- Styles externes -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css" />
+    
+    <!-- Analytics -->
+    <script defer src="https://umami.bigouden.org/script.js" data-website-id="35c03c60-8a29-4b39-b5d1-d34729fcbe18"></script>
+    
+    <!-- View Transitions (décommentez si nécessaire) -->
     <!-- <ClientRouter /> -->
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": type === 'article' ? 'BlogPosting' : 'WebSite',
+      "name": pageTitle,
+      "description": description,
+      "url": canonicalUrl,
+      "image": image,
+      "author": {
+        "@type": "Person",
+        "name": "Simon Bélier"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": t('meta.title'),
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://bigouden.org/favicon.svg"
+        }
+      },
+      "inLanguage": lang
+    })} />
 </head>

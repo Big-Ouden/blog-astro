@@ -1,5 +1,5 @@
 ---
-import {Image} from "astro:assets";
+import { Image } from "astro:assets";
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
@@ -7,110 +7,132 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 interface Props {
-    pageTitle?: String;
+    pageTitle?: string;
+    description?: string;
+    image?: string;
+    noindex?: boolean;
+    canonical?: string;
+    type?: 'website' | 'article' | 'profile';
     allPosts: any[];
-};
+    batchSize?: number;
+    maxCharDesc?: number;
+}
 
 const {
-    pageTitle = "Posts",
-    allPosts
+    pageTitle = t('blog.title') || "Posts",
+    description,
+    image,
+    noindex,
+    canonical,
+    type = 'website',
+    allPosts,
+    batchSize = 5,
+    maxCharDesc = 75
 } = Astro.props;
 
+// Tri des posts par date (plus récent en premier) puis par titre
 const sortedPosts = allPosts.sort((a: any, b: any) => {
     const dateComparison = new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
     
-    // If dates are the same, sort alphabetically by title
+    // Si les dates sont identiques, tri alphabétique par titre
     if (dateComparison === 0) {
         return a.data.title.localeCompare(b.data.title);
     }
     
     return dateComparison;
 });
-
-
-const batchSize = 5;
-const maxCharDesc = 75;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <!-- <div class="flex flex-col justify-between my-10"> -->
-      <slot name="title" />
-  <!-- </div> -->
-
-  <div id="posts-list" class="flex flex-col w-full gap-5 mb-10">
-    {sortedPosts.map((post: any, index: number) => (
-      <a 
-        id="post-link"
-        href={`/posts/${post.id}`} 
-        class="hover:bg-base-200 transition-colors  px-4 py-2 active:scale-95 transition-transform"
-            style={`display: ${index < batchSize ? 'block' : 'none'}`} 
-        class:list-item
-      >
-        <div class="flex flex-col md:flex-row w-auto m-2">
-          <div class="h-auto w-2/6">
-            <h2 class="text-fg-200">{post.data.pubDate.toLocaleDateString(`${lang}`)}</h2>
-          </div>
-          <div class="flex flex-col h-auto w-full">
-            <div class="w-auto h-auto text-xl">
-              <h1>
-                <span class="text-info">#</span>
-                <span class="underline underline-offset-5 decoration-info decoration-2">{post.data.title}</span>
-              </h1>
+<BaseLayout 
+    pageTitle={pageTitle}
+    description={description}
+    image={image}
+    noindex={noindex}
+    canonical={canonical}
+    type={type}
+>
+    <slot name="title" />
+    
+    <div id="posts-list" class="flex flex-col w-full gap-5 mb-10">
+        {sortedPosts.map((post: any, index: number) => (
+            <a 
+                id="post-link"
+                href={`/posts/${post.id}`} 
+                class="hover:bg-base-200 transition-colors px-4 py-2 active:scale-95 transition-transform"
+                style={`display: ${index < batchSize ? 'block' : 'none'}`} 
+                class:list-item
+            >
+                <div class="flex flex-col md:flex-row w-auto m-2">
+                    <div class="h-auto w-2/6">
+                        <h2 class="text-fg-200">{post.data.pubDate.toLocaleDateString(lang)}</h2>
+                    </div>
+                    <div class="flex flex-col h-auto w-full">
+                        <div class="w-auto h-auto text-xl">
+                            <h1>
+                                <span class="text-info">#</span>
+                                <span class="underline underline-offset-5 decoration-info decoration-2">{post.data.title}</span>
+                            </h1>
+                        </div>
+                        <div class="text-fg-200 w-auto h-full">
+                            <p>
+                                {(post.data.description.length > maxCharDesc)
+                                    ? post.data.description.slice(0, maxCharDesc) + "..."
+                                    : post.data.description}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="w-2/6 m-0 hidden md:block">
+                        <div class="flex flex-col items-center">
+                            {post.data.image && (
+                                <Image 
+                                    src={post.data.image.url} 
+                                    alt=""
+                                    class="h-fit w-fit items-center"
+                                    width="50"
+                                    height="50"
+                                    loading="eager"
+                                />
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        ))}
+    </div>
+    
+    {sortedPosts.length > batchSize && (
+        <div class="text-center my-10">
+            <div class="divider">
+                <button 
+                    id="load-more" 
+                    class="text-xs bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent hover:text-accent-content transition-colors cursor-pointer"
+                >
+                    {t("more")}
+                </button>
             </div>
-            <div class="text-fg-200 w-auto h-full">
-              <p>
-                {(post.data.description.length > maxCharDesc)
-                  ? post.data.description.slice(0, maxCharDesc) + "..."
-                  : post.data.description}
-              </p>
-            </div>
-          </div>
-          <div class="w-2/6 m-0 hidden md:block">
-            <div class="flex flex-col items-center">
-              {post.data.image && (
-                <Image 
-                  src={post.data.image.url} 
-                  alt=""
-                  class="h-fit w-fit items-center"
-                  width="50"
-                  height="50"
-                  loading="eager"
-                />
-              )}
-            </div>
-          </div>
         </div>
-      </a>
-    ))}
-  </div>
-
-  <div class="text-center my-10  ">
-        <div class="divider">
-            <button id="load-more" class="text-xs bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent hover:text-accent-content transition-colors cursor-pointer">
-                {t("more")}
-            </button>
-        </div>
-  </div>
-
-  <script is:raw>
-    const loadMoreBtn = document.getElementById('load-more');
-    const posts = [...document.querySelectorAll('#posts-list > a')];
-    let visible = 5;
-    const increment = 5;
-
-    loadMoreBtn.addEventListener('click', () => {
-      for (let i = visible; i < visible + increment; i++) {
-        if (posts[i]) posts[i].style.display = 'block';
-      }
-      visible += increment;
-      if (visible >= posts.length) loadMoreBtn.style.display = 'none';
-    });
-
-    if (visible >= posts.length) {
-      loadMoreBtn.style.display = 'none';
-    }
-  </script>
-
-  <slot name="content" />
+    )}
+    
+    <script is:inline define:vars={{ batchSize, increment: batchSize }}>
+        const loadMoreBtn = document.getElementById('load-more');
+        const posts = [...document.querySelectorAll('#posts-list > a')];
+        let visible = batchSize;
+        
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                for (let i = visible; i < visible + increment; i++) {
+                    if (posts[i]) posts[i].style.display = 'block';
+                }
+                visible += increment;
+                if (visible >= posts.length) loadMoreBtn.style.display = 'none';
+            });
+            
+            // Cacher le bouton si tous les posts sont déjà visibles
+            if (visible >= posts.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+    </script>
+    
+    <slot name="content" />
 </BaseLayout>
-

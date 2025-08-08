@@ -10,32 +10,58 @@ import { getLangFromUrl, useTranslations } from '@i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const {pageTitle, display} = Astro.props;
+interface Props {
+  pageTitle?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  canonical?: string;
+  type?: 'website' | 'article' | 'profile';
+  display?: boolean;
+}
 
-const githubUrl="https://link.bigouden.org/going/1?https://github.com/Big-Ouden";
-const linkedinUrl="https://link.bigouden.org/going/4?https://www.linkedin.com/in/simon-b%C3%A9lier-1a2535295/"; 
-const linktreeUrl="https://link.bigouden.org" ;
+const {
+  pageTitle,
+  description,
+  image,
+  noindex,
+  canonical,
+  type,
+  display
+} = Astro.props;
 
+// URLs sociales centralisées
+const githubUrl = "https://github.com/Big-Ouden";
+const linkedinUrl = "https://www.linkedin.com/in/simon-b%C3%A9lier-1a2535295/"; 
+const linktreeUrl = "https://link.bigouden.org";
 ---
 
 <html lang={lang} class="text-s md:text-xl">
-    <Head pageTitle={pageTitle}/>
-
+    <Head 
+      pageTitle={pageTitle}
+      description={description}
+      image={image}
+      noindex={noindex}
+      canonical={canonical}
+      type={type}
+    />
     <body>
         <div class="flex flex-col h-[95vh] justify-between">
-            <header class="">
-                <Header/>
+            <header>
+                <Header />
             </header>
             <main class="mb-auto space-y-2">
                 <Breadcrumbs display={display} />
-                <slot/>
+                <slot />
             </main>
             <footer class="m-0">
-                <Footer githubUrl={githubUrl} linkedinUrl={linkedinUrl} linktreeUrl={linktreeUrl} />
+                <Footer 
+                  githubUrl={githubUrl} 
+                  linkedinUrl={linkedinUrl} 
+                  linktreeUrl={linktreeUrl} 
+                />
             </footer>
-          </div>
-        <BackToTop/>
-
+        </div>
+        <BackToTop />
     </body>
 </html>
-

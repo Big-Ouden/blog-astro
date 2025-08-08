@@ -1,40 +1,100 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from '@components/Prose.astro';
-import { getLangFromUrl, getLanguageLabel, useTranslations, useTranslatedPath } from '@i18n/utils';
-import { Image, Picture } from 'astro:assets';
+import { getLangFromUrl, getLanguageLabel, useTranslations, getLocalizedPath } from '@i18n/utils';
+import { Image } from 'astro:assets';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
+
+interface Props {
+    frontmatter: {
+        title: string;
+        description?: string;
+        author?: string;
+        pubDate: string | Date;
+        tags?: string[];
+        image?: {
+            url: string;
+            alt?: string;
+        };
+    };
+}
 
 const { frontmatter } = Astro.props;
-const pubDate = new Date(frontmatter.pubDate); // convert manually
 
+// Conversion de la date
+const pubDate = new Date(frontmatter.pubDate);
 
-
+// Génération des métadonnées pour l'article
+const articleDescription = frontmatter.description || `Article de blog par ${frontmatter.author || 'BigOuden'}`;
+const articleTags = frontmatter.tags || [];
 ---
-<BaseLayout pageTitle={frontmatter.title}>
-  <h1 class="text-xl md:text-3xl r ">{frontmatter.title}</h1>
-  <!-- <img src={frontmatter.image.url}  alt={frontmatter.image.alt} loading={"eager"} class="w-full" /> -->
-  <div class="inline-flex items-center flex-wrap flex-row space-x-1 mb-5 ">
-    <p>Posted on <span class="text-accent ">{pubDate.toLocaleDateString(`${lang}`)} </span> ::</p> 
-    <p>By {frontmatter.author} ::</p>
-    <p>{getLanguageLabel(lang)} ::</p>
-    
-    <!-- <p><em>{frontmatter.description}</em></p> -->
-    
-    <!-- <div class="tags flex flex-wrap space-x-1 "> -->
-        {frontmatter.tags.map((tag: String) => 
-            <a id="tag" href={translatePath(`/tags/${tag}`)}><p class="tag pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content rounded-lg active:scale-90 focus:scale-90  transition-transform">{tag}</p></a>
-        )}
-    <!-- </div> -->
-  </div>
-  <div class="divider"></div>
 
-  <div class="mb-20" >
-    <Prose >
-      <slot  />
-    </Prose>
-  </div>
+<BaseLayout 
+    pageTitle={frontmatter.title}
+    description={articleDescription}
+    image={frontmatter.image?.url}
+    type="article"
+>
+    <article>
+        <header class="mb-8">
+            <h1 class="text-xl md:text-3xl mb-4">{frontmatter.title}</h1>
+            
+            {frontmatter.image && (
+                <div class="mb-6">
+                    <Image 
+                        src={frontmatter.image.url} 
+                        alt={frontmatter.image.alt || frontmatter.title} 
+                        loading="eager" 
+                        class="w-full rounded-lg shadow-lg" 
+                        width={800}
+                        height={400}
+                    />
+                </div>
+            )}
+         
+        </header>
+        
+        <div class="divider"></div>
+        
+        <div class="mb-20">
+            <Prose>
+                <slot />
+            </Prose>
+        </div>
+        
+        <footer class="mt-16 pt-8 border-t border-base-300">
+            {articleTags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-sm text-fg-200">{t('blog.tags')}:</span>
+                    {articleTags.map((tag: string) => (
+                        <a 
+                            href={getLocalizedPath(lang, `/tags/${tag}`)} 
+                            class="text-sm bg-base-200 hover:bg-base-300 px-2 py-1 rounded transition-colors"
+                        >
+                            #{tag}
+                        </a>
+                    ))}
+                </div>
+            )}
+            
+            <div class="text-xs text-fg-200">
+                <p>
+                    {t('blog.publishedOn')} 
+                    <time datetime={pubDate.toISOString()}>
+                        {pubDate.toLocaleDateString(lang, { 
+                            weekday: 'long', 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        })}
+                    </time>
+                </p>
+                {frontmatter.author && (
+                    <p>{t('blog.writtenBy')} {frontmatter.author}</p>
+                )}
+            </div>
+        </footer>
+    </article>
 </BaseLayout>

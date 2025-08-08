@@ -1,27 +1,42 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-
-const pageTitle = "505";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '@i18n/utils';
 
 interface Props {
   error: unknown;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageTitle = "500 – " + t("serverError"); // Add translation for "serverError" in ui.ts
+const homeHref = getLocalizedPath(lang, '');
+
 const { error } = Astro.props;
-
 ---
+
 <BaseLayout pageTitle={pageTitle}>
-    <h1>{pageTitle}</h1>
-	<div class="block">
-		
-	</div>
-	<div>{error instanceof Error ? error.message : "Unknown error"}</div>
+  <section class="flex flex-col items-center justify-center text-center py-16 px-4">
+    <h1 class="text-6xl font-bold text-error mb-4">500</h1>
+    <p class="text-2xl font-semibold mb-2">{t("somethingWentWrong")}</p>
+    <p class="text-base text-base-content/70 mb-8">
+      {t("serverErrorDescription") /* e.g. "An unexpected error occurred on our side. Please try again later." */}
+    </p>
+    <a 
+      href={homeHref}
+      class="px-6 py-3 bg-primary text-primary-content rounded-lg shadow hover:shadow-lg hover:bg-primary-focus transition-all"
+    >
+      {t("backToHome")}
+    </a>
 
-	
-
+    {error && (
+      <div class="mt-8 p-4 border border-base-300 rounded bg-base-200 text-left max-w-lg w-full">
+        <p class="font-semibold mb-1">{t("technicalDetails")}</p>
+        <pre class="text-sm whitespace-pre-wrap">
+{error instanceof Error ? error.message : String(error)}
+        </pre>
+      </div>
+    )}
+  </section>
 </BaseLayout>
+
