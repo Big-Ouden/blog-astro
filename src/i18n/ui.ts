@@ -22,6 +22,7 @@ export const ui = {
     "meta.title": "Simon Bélier | Blog on Computing and Technological Projects",
     "md.toc": "Table of content",
     "blog.postedOn": "Posted on",
+
     "blog.by": "By",
     "blog.tags": "Tags",
     "blog.publishedOn": "Published on",
