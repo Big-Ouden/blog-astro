@@ -3,13 +3,12 @@ title: 'MDX Features Showcase'
 pubDate: 2025-08-03
 description: 'A comprehensive showcase of all MDX features supported in this blog.'
 author: 'BigOuden'
-draft: true
+draft: false
 tags: ["mdx", "features", "showcase"]
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'The Astro logo on a dark background with a pink glow.'
 ---
-import Breadcrumbs from "@components/Breadcrumbs.astro";
 
 
 # Table of Contents
@@ -94,8 +93,4 @@ Here is a footnote reference[^1].
 # Autolink Literals
 
 www.example.com, https://example.com, and contact@example.com.
-
-# Custom Components
-
-<Breadcrumbs />
 
