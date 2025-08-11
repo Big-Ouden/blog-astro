@@ -21,8 +21,9 @@ export const ui = {
       "Explore my projects in High-Performance Computing and my blog dedicated to computing and technology.",
     "meta.title": "Simon Bélier | Blog on Computing and Technological Projects",
     "md.toc": "Table of content",
-    "blog.postedOn": "Posted on",
 
+    "blog.title": "Posts",
+    "blog.postedOn": "Posted on",
     "blog.by": "By",
     "blog.tags": "Tags",
     "blog.publishedOn": "Published on",
