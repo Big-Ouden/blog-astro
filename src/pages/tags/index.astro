@@ -1,44 +1,49 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
-import BlogPost from '@components/BlogPost.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import BlogIndexLayout from '@layouts/BlogIndexLayout.astro';
-import { getLangFromUrl, useTranslations } from '@i18n/utils';
-
-
-export async function getStaticPaths() {
-    const allPosts = await getCollection("blog");
-    const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-    return uniqueTags.map((tag) => {
-        const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
-        return {
-            params: { tag },
-            props: { posts: filteredPosts },
-        };
-    });
-}
-
-const { tag } = Astro.params;
-const {posts} = Astro.props;
+import { getLangFromUrl, useTranslations,useTranslatedPath  } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-// Filtrer les posts par langue
-const currentLangPosts = posts.filter((post: any) => {
-    return post.id.startsWith(`${lang}/`) || 
-           post.id.includes(`-${lang}.md`) || 
-           post.id.includes(`-${lang}/`);
+const translatePath = useTranslatedPath(lang);
+
+// Filter posts by language
+const allPostsDraft = await getCollection("blog", ({ id }) => {
+    return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
+});
+const allPosts = allPostsDraft.filter((post:any) => post.data.draft != true);
+
+const tagCounts = new Map();
+allPosts.forEach((post) => {
+    post.data.tags?.forEach((tag) => {
+        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+    });
 });
 
+
+const tags = Array.from(tagCounts.entries())
+    .map(([name, count]) => ({ name, count }))
+.sort((a, b) => a.name.localeCompare(b.name));
+// const tags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())].sort();
+
+
+
+
+const pageTitle = "Tags index";
 ---
-<BlogIndexLayout pageTitle={tag} allPosts={currentLangPosts}>
-    <div slot="title" class="flex flex-col text-3xl my-10 ">
-        <h1  class="">Posts en lien avec <span class="text-info" >{tag}</span><span class="text-info">.</span></h1>
+
+
+<BaseLayout pageTitle={pageTitle}>
+    <div class= "flex flex-col justify-between space-y-10 my-10">
+    
+        <h1 class="text-3xl">{pageTitle}<span class="text-info">.</span></h1>
     </div>
-
-
-    <div slot="content">
+    <div class="flex flex-row flex-wrap space-x-5">
+        {tags.map((tag) => 
+            <a class="tag m-1 pb-1 pt-1 pr-2 pl-2 bg-secondary text-secondary-content active:scale-90 transition-transform"  href={ translatePath(`/tags/`)+tag.name}>
+            <p>{tag.name} : ({tag.count})</p>
+            </a>
+        )}
     </div>
-</BlogIndexLayout>
-
+</BaseLayout>

@@ -1,26 +1,29 @@
 ---
 import { getCollection } from "astro:content";
+
+import BlogPost from '@components/BlogPost.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
 import BlogIndexLayout from '@layouts/BlogIndexLayout.astro';
-import { getLangFromUrl, useTranslations, getAllLocaleUrls } from '@i18n/utils';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
+
 
 export async function getStaticPaths() {
     const allPosts = await getCollection("blog");
     const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-    
     return uniqueTags.map((tag) => {
         const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
         return {
             params: { tag },
-            props: { posts: filteredPosts, tag },
+            props: { posts: filteredPosts },
         };
     });
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const {posts} = Astro.props;
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
 // Filtrer les posts par langue
 const currentLangPosts = posts.filter((post: any) => {
     return post.id.startsWith(`${lang}/`) || 
@@ -28,84 +31,14 @@ const currentLangPosts = posts.filter((post: any) => {
            post.id.includes(`-${lang}/`);
 });
 
-// Métadonnées pour SEO
-const pageTitle = `${t('tags.allPosts')} "${tag}"`;
-const pageDescription = `${t('tags.allPosts')} "${tag}". ${currentLangPosts.length} ${currentLangPosts.length > 1 ? t('tags.postsCount') : t('tags.postCount')}.`;
-
-// URLs alternatives pour hreflang
-const alternateUrls = getAllLocaleUrls(`tags/${tag}`);
-
-// Données structurées pour le SEO
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": pageTitle,
-    "description": pageDescription,
-    "about": {
-        "@type": "Thing",
-        "name": tag
-    },
-    "mainEntity": {
-        "@type": "ItemList",
-        "numberOfItems": currentLangPosts.length,
-        "itemListElement": currentLangPosts.map((post: any, index: number) => ({
-            "@type": "ListItem",
-            "position": index + 1,
-            "item": {
-                "@type": "BlogPosting",
-                "headline": post.data.title,
-                "description": post.data.description,
-                "datePublished": post.data.pubDate,
-                "author": {
-                    "@type": "Person",
-                    "name": post.data.author || "BigOuden"
-                },
-                "keywords": post.data.tags?.join(", ")
-            }
-        }))
-    }
-};
 ---
-
-<BlogIndexLayout 
-    pageTitle={pageTitle}
-    allPosts={currentLangPosts}
-    description={pageDescription}
-    alternateUrls={alternateUrls}
->
-    <!-- SEO: Données structurées JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} slot="head" />
-    
-    <!-- SEO: Balises meta spécifiques -->
-    <meta name="robots" content="index, follow" slot="head" />
-    <meta property="og:type" content="website" slot="head" />
-    
-    <div slot="title" class="flex flex-col text-3xl my-10">
-        <header>
-            <h1 class="">
-                {t('tags.allPosts')} 
-                <span class="text-info">"{tag}"</span>
-                <span class="text-info">.</span>
-            </h1>
-            <p class="text-base text-info mt-2">
-                {currentLangPosts.length} {currentLangPosts.length > 1 ? t('tags.postsCount') : t('tags.postCount')}
-            </p>
-        </header>
+<BlogIndexLayout pageTitle={tag} allPosts={currentLangPosts}>
+    <div slot="title" class="flex flex-col text-3xl my-10 ">
+        <h1  class="">Posts en lien avec <span class="text-info" >{tag}</span><span class="text-info">.</span></h1>
     </div>
-    
+
+
     <div slot="content">
-        {currentLangPosts.length === 0 && (
-            <div class="text-center py-12">
-                <p class="text-lg text-gray-500 mb-4">
-                    {t('tags.noTags')}
-                </p>
-                <a 
-                    href="/tags" 
-                    class="inline-flex items-center px-4 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary-focus transition-colors"
-                >
-                    ← {t('tags.backToAll')}
-                </a>
-            </div>
-        )}
     </div>
 </BlogIndexLayout>
+
