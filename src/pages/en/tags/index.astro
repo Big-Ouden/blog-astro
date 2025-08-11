@@ -9,9 +9,10 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
 // Filter posts by language
-const allPosts = await getCollection("blog", ({ id }) => {
+const allPostsDraft = await getCollection("blog", ({ id }) => {
     return id.startsWith(`${lang}/`) || id.includes(`-${lang}.md`) || id.includes(`-${lang}/`);
 });
+const allPosts = allPostsDraft.filter((post:any) => post.data.draft != true);
 
 const tagCounts = new Map();
 allPosts.forEach((post) => {
