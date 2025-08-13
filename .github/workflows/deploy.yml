@@ -1,67 +1,67 @@
+---
 name: Test and Deploy Astro Blog
-
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
 jobs:
   test:
     name: Build & Test Astro
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
       - name: Install dependencies
         run: npm ci
-
       - name: Build Astro site
         run: npm run build
-
       - name: Lint code (Astro, JS, CSS, etc.)
         run: npm run lint
-        continue-on-error: true  # si tu veux que ce soit non-bloquant
-
+        continue-on-error: true
       - name: Check broken links (static site)
         run: |
           npm install -g broken-link-checker
           blc http://localhost:4321 --filter-level 3 --crawler --recursive --get > /dev/null || true
         continue-on-error: true
-
   deploy:
     name: Deploy to VPS
-    needs: test  # ← NE DÉPLOIE QUE SI LES TESTS PASSENT
+    needs: test
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Copy files to VPS via SCP
-        uses: appleboy/scp-action@v0.1.6
+      - name: Deploy to VPS with rsync
+        uses: burnett01/rsync-deployments@6.0.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: "."
-          target: "~/blog-astro"
-
-      - name: SSH and deploy with Docker Compose
+          switches: -avzr --delete --exclude='.git/' --exclude='.github/' --exclude='node_modules/'
+            --exclude='*.log' --exclude='.env*'
+          path: ./
+          remote_path: ~/blog-astro/
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.VPS_SSH_KEY }}
+      - name: Deploy with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
+          script: |-
             cd ~/blog-astro
             docker rm -f blog-astro || true
             docker compose down
             docker compose pull
             docker compose up -d --build
+
+            # Vérification post-déploiement
+            sleep 10
+            if docker ps | grep -q blog-astro; then
+              echo "Déploiement réussi - Conteneur en cours d'exécution"
+            else
+              echo "Erreur de déploiement"
+              docker compose logs --tail=20
+              exit 1
+            fi
